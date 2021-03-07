@@ -1,5 +1,9 @@
 {
   "name": "books",
+  "engines": {
+    "node": ">=8.3.0"
+  },
+  "type": "module",
   "version": "1.0.0",
   "description": "Accounting management app",
   "main": "app.js",

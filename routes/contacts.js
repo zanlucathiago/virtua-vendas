@@ -21,8 +21,6 @@ router.get('/', (req, res) =>
     .catch((err) => console.log(err))
 );
 
-// router.get('/add', (req, res) => res.render('add'));
-
 router.post('/add', (req, res) => {
   const { displayName, paymentTerms } = req.body;
 

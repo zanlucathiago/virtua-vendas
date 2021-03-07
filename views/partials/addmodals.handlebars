@@ -1,0 +1,74 @@
+<div id="additem" class="modal">
+  <div class="modal-content">
+    <h4>Adicionar Produto</h4>
+    <form action="/inventory/add" id="additemform" method="POST">
+      <p>
+        <label class="item-type-goods-label">
+          <input
+            checked
+            class="item-type-goods-input with-gap"
+            name="type"
+            type="radio"
+            value="GOODS"
+          />
+          <span>Produto</span>
+        </label>
+        <label class="item-type-service-label">
+          <input
+            class="item-type-service-input with-gap"
+            name="type"
+            type="radio"
+            value="SERVICE"
+          />
+          <span>Serviço</span>
+        </label>
+      </p>
+      <div class="input-field col s6">
+        <input id="itemname" name="name" type="text" class="validate" />
+        <label for="itemname">Nome</label>
+      </div>
+      <div class="input-field col s12">
+        <select class="item-usageunit-select" name="usageUnit"></select>
+        <label>Unidade</label>
+      </div>
+      <div class="input-field col s6">
+        <input
+          id="itemsellingprice"
+          min="0.01"
+          name="sellingPrice"
+          step="0.01"
+          type="number"
+          class="validate"
+        />
+        <label for="itemsellingprice">Preço</label>
+      </div>
+      <div class="input-field col s12">
+        <select class="item-account-select" name="account"></select>
+        <label>Conta</label>
+      </div>
+      <div class="input-field col s6">
+        <input
+          id="itemdescription"
+          name="description"
+          type="text"
+          class="validate"
+        />
+        <label for="itemdescription">Descrição</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn waves-effect waves-light"
+      form="additemform"
+      type="submit"
+      name="action"
+    >
+      Salvar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</div>

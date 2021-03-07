@@ -1,8 +1,38 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Banking = require('./Banking');
+// const Banking = require('./Banking');
 
 const Item = db.define('item', {
+  type: {
+    allowNull: false,
+    type: Sequelize.ENUM('GOODS', 'SERVICE'),
+  },
+  name: {
+    allowNull: false,
+    type: Sequelize.STRING,
+  },
+  usageUnit: {
+    allowNull: true,
+    type: Sequelize.ENUM(
+      '',
+      'G',
+      'JOGO',
+      'LT',
+      'MWHORA',
+      'METRO',
+      'M3',
+      'M2',
+      '1000UN',
+      'PARES',
+      'QUILAT',
+      'KG',
+      'UN'
+    ),
+  },
+  sellingPrice: {
+    allowNull: false,
+    type: Sequelize.INTEGER,
+  },
   account: {
     allowNull: false,
     type: Sequelize.ENUM(
@@ -15,17 +45,9 @@ const Item = db.define('item', {
       'SHIPPING_CHARGE'
     ),
   },
-  name: {
-    allowNull: false,
+  description: {
+    allowNull: true,
     type: Sequelize.STRING,
-  },
-  sellingPrice: {
-    allowNull: false,
-    type: Sequelize.INTEGER,
-  },
-  type: {
-    allowNull: false,
-    type: Sequelize.ENUM('GOODS', 'SERVICE'),
   },
 });
 

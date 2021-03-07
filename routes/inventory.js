@@ -1,37 +1,87 @@
 const express = require('express');
-// const db = require('../config/database');
-// const Account = require('../models/Account');
-// const Banking = require('../models/Banking');
-// const Currency = require('../models/Currency');
 const Item = require('../models/Item');
-// const Invoice = require('../models/Invoice');
-// const Invoiceitem = require('../models/Invoiceitem');
-// const Item = require('../models/Item');
-// const Terms = require('../models/Terms');
 
 const router = express.Router();
 
-router.get('/', (req, res) =>
+const getAll = (req, res) => {
   Item.findAll({ raw: true })
     .then((inventory) => {
       res.render('inventory', {
-        inventory,
+        inventory: inventory.map((i) => ({
+          ...i,
+          sellingPrice: `R$ ${(i.sellingPrice / 100).toFixed(2)}`,
+        })),
       });
     })
-    .catch((err) => console.log(err))
-);
+    .catch((err) => console.log(err));
+};
+
+router.get('/', getAll);
+
+router.get('/delete', getAll);
+
+router.get('/edit', getAll);
+
+router.get('/add', getAll);
 
 router.post('/add', (req, res) => {
-  const { displayName, paymentTerms } = req.body;
+  const {
+    account,
+    description,
+    name,
+    sellingPrice,
+    type,
+    usageUnit,
+  } = req.body;
 
-  Item.create({ displayName, paymentTerms }).then(() => {
-    res.redirect('/inventory');
-  });
+  Item.create({
+    account,
+    description,
+    name,
+    sellingPrice: 100 * parseFloat(sellingPrice),
+    type,
+    usageUnit,
+  })
+    .then(() => {
+      res.redirect('/inventory/add');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 
-router.post('/delete/:id', (req, res) => {
+router.post('/delete', (req, res) => {
+  const id = JSON.parse(req.body.modaldeleteids);
+  Item.destroy({ where: { id } }).then(() => res.redirect('/inventory/delete'));
+});
+
+router.post('/edit/:id', (req, res) => {
+  const {
+    account,
+    description,
+    name,
+    sellingPrice,
+    type,
+    usageUnit,
+  } = req.body;
+
   const { id } = req.params;
-  Item.destroy({ where: { id } }).then(() => res.redirect('/inventory'));
+  // const id = JSON.parse(req.body.modaldeleteids);
+  Item.findByPk(id).then((item) => {
+    item
+      .update({
+        account,
+        description,
+        name,
+        sellingPrice: 100 * parseFloat(sellingPrice),
+        type,
+        usageUnit,
+      })
+      .then(() => {
+        res.redirect('/inventory/edit');
+      });
+  });
+  // Item.destroy({ where: { id } }).then(() => res.redirect('/inventory/delete'));
 });
 
 module.exports = router;
