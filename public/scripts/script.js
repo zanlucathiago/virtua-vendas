@@ -1,4 +1,7 @@
+// import autocompletes from './autocompletes.js';
+import dropdowns from './dropdowns.js';
 import forms from './forms.js';
+import tablerow from './invoiceitem/tablerow.js';
 import itemradios from './item/radios.js';
 import itemselects from './item/selects.js';
 import modals from './modals.js';
@@ -31,15 +34,18 @@ const initToastConfirmations = () => {
 };
 
 const onContentLoad = () => {
+  // tablerow.addinvoiceitem();
   initToastConfirmations();
   tablecheckboxes.init();
   forms.init();
+  // autocompletes.init();
+  dropdowns.init(document.getElementById('avatar-topright-dropdown-trigger'));
   itemradios.init();
   itemselects.init();
   M.FormSelect.init(document.querySelectorAll('select'));
-  modals.init();
   M.Tooltip.init(document.querySelectorAll('.tooltipped'));
   M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'));
+  modals.init();
 };
 
 document.addEventListener('DOMContentLoaded', onContentLoad);

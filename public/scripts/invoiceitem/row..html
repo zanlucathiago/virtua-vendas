@@ -1,0 +1,52 @@
+<tr>
+  <td>
+    <a
+      class="dropdown-trigger"
+      data-target="dropdown-product-invoice-add"
+      href="#"
+      id="dropdown-product-invoice-add-trigger"
+      style="position: relative"
+    >
+      <div style="margin: -15px 0">
+        <input
+          id="invoiceitemitemid"
+          name="customerId"
+          type="text"
+          class="validate"
+        /></div
+    ></a>
+    <ul id="dropdown-product-invoice-add" class="dropdown-content"></ul>
+  </td>
+  <td>
+    <div style="margin: -15px 0">
+      <input
+        id="itemsellingprice"
+        name="sellingPrice"
+        type="number"
+        class="validate"
+      />
+    </div>
+  </td>
+  <td>
+    <div style="margin: -15px 0; display: flex">
+      <input disabled style="width: 32px" value="R$" />
+      <input
+        id="itemsellingprice"
+        min="0.01"
+        name="sellingPrice"
+        step="0.01"
+        type="number"
+        class="validate"
+      />
+    </div>
+  </td>
+  <td>R$ 0,00</td>
+  <td>
+    <a
+      class="modal-trigger waves-effect waves-light btn danger-background default-icon-button row-icon-button"
+      id="deleteitemsbutton"
+      href="#invoicesdeletemodal"
+      ><i class="material-icons">delete</i></a
+    >
+  </td>
+</tr>

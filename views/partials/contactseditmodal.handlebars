@@ -1,0 +1,99 @@
+<div id="editcustomermodal{{ id }}" class="modal">
+  <div class="modal-content">
+    <h4>Editar Cliente</h4>
+    <form
+      action="/contacts/edit/{{ id }}"
+      id="editcustomerform{{ id }}"
+      method="POST"
+    >
+      <p>
+        <label class="customer-type-goods-label">
+          <input
+            checked
+            class="customer-type-goods-input with-gap"
+            name="type"
+            type="radio"
+            value="BUSINESS"
+          />
+          <span>Comercial</span>
+        </label>
+        <label class="customer-type-service-label">
+          <input
+            class="customer-type-service-input with-gap"
+            name="type"
+            type="radio"
+            value="INDIVIDUAL"
+          />
+          <span>Individual</span>
+        </label>
+      </p>
+      <div class="input-field col s6">
+        <input
+          id="customercompany{{ id }}"
+          name="company"
+          type="text"
+          class="validate"
+        />
+        <label for="customercompany{{ id }}">Empresa</label>
+      </div>
+      <div class="input-field col s6">
+        <input
+          id="customername{{ id }}"
+          name="name"
+          type="text"
+          class="validate"
+        />
+        <label for="customername{{ id }}">Nome</label>
+      </div>
+      <div class="input-field col s12">
+        <input
+          id="customeremail{{ id }}"
+          name="email"
+          type="email"
+          class="validate"
+        />
+        <label for="customeremail{{ id }}">Email</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">phone</i>
+        <input
+          id="customerphone{{ id }}"
+          name="phone"
+          type="tel"
+          class="validate"
+        />
+        <label for="customerphone{{ id }}">Telefone</label>
+      </div>
+      <div class="input-field col s12">
+        <select
+          class="customer-currency-select"
+          form="editcustomerform{{ id }}"
+          name="currency"
+        ></select>
+        <label>Moeda</label>
+      </div>
+      <div class="input-field col s12">
+        <select
+          class="paymentterms-select"
+          form="editcustomerform{{ id }}"
+          name="paymentTerms"
+        ></select>
+        <label>Prazo</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn waves-effect waves-light"
+      form="editcustomerform{{ id }}"
+      type="submit"
+      name="action"
+    >
+      Salvar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</div>

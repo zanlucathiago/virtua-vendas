@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    {{{body}}}
+    <script>
+      document.getElementById('login-form').addEventListener('submit', (e) => {
+        // debugger;
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (!email || !password) {
+          M.toast({
+            classes: 'warning-background',
+            html: `
+            <div class="toast-content">
+              <i class="material-icons toast-icon">
+                warning
+              </i>
+              <div>
+                Usuário e senha devem ser preenchidos.
+              </div>
+            </div>`,
+          });
+        } else {
+          // fetch('http://localhost:5001/api/auth/login', {
+          fetch('https://tecchi-auth.herokuapp.com/api/auth/login', {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+            mode: 'cors',
+          })
+            .then(async (response) => {
+              const data = await response.json();
+
+              if (!response.ok) {
+                throw Error(data.msg);
+              }
+
+              document.cookie = `token=${data.token}`;
+              const form = document.createElement('form');
+              form.method = 'GET';
+              form.action = '/dashboard';
+              document.body.appendChild(form);
+              form.submit();
+            })
+            .catch((err) => {
+              M.toast({
+                classes: 'danger-background',
+                html: `
+                  <div class="toast-content">
+                    <i class="material-icons toast-icon">
+                      report
+                    </i>
+                    <div>
+                      ${err.message}
+                    </div>
+                  </div>`,
+              });
+            });
+        }
+      });
+    </script>
+  </body>
+</html>

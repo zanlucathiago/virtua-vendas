@@ -1,0 +1,80 @@
+<div id="addcustomer" class="modal">
+  <div class="modal-content">
+    <h4>Adicionar Cliente</h4>
+    <form action="/contacts/add" id="addcustomerform" method="POST">
+      <p>
+        <label class="customer-type-goods-label">
+          <input
+            checked
+            class="customer-type-goods-input with-gap"
+            name="type"
+            type="radio"
+            value="BUSINESS"
+          />
+          <span>Comercial</span>
+        </label>
+        <label class="customer-type-service-label">
+          <input
+            class="customer-type-service-input with-gap"
+            name="type"
+            type="radio"
+            value="INDIVIDUAL"
+          />
+          <span>Individual</span>
+        </label>
+      </p>0
+      <div class="input-field col s6">
+        <input
+          id="customercompany"
+          name="company"
+          type="text"
+          class="validate"
+        />
+        <label for="customercompany">Empresa</label>
+      </div>
+      <div class="input-field col s6">
+        <input
+          id="customername"
+          name="name"
+          type="text"
+          class="validate"
+        />
+        <label for="customername">Nome</label>
+      </div>
+      <div class="input-field col s12">
+        <input id="customeremail" name="email" type="email" class="validate" />
+        <label for="customeremail">Email</label>
+      </div>
+      <div class="input-field col s6">
+        <i class="material-icons prefix">phone</i>
+        <input id="customerphone" name="phone" type="tel" class="validate" />
+        <label for="customerphone">Telefone</label>
+      </div>
+      <div class="input-field col s12">
+        <select class="customer-currency-select" name="currency"></select>
+        <label>Moeda</label>
+      </div>
+      <div class="input-field col s12">
+        <select
+          class="paymentterms-select"
+          name="paymentTerms"
+        ></select>
+        <label>Prazo</label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn waves-effect waves-light"
+      form="addcustomerform"
+      type="submit"
+      name="action"
+    >
+      Salvar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</div>

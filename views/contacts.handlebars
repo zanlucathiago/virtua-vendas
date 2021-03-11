@@ -1,21 +1,89 @@
-<table>
+
+
+
+
+<div id="contactsdeletemodal" class="modal delete-modal">
+  <div class="modal-content">
+    <h4>Atenção</h4>
+    <p>Deseja excluir os clientes selecionados?</p>
+    <form action="/contacts/delete" class="delete-form" id="deletecustomersform" method="POST">
+      <div class="input-field col s6">
+        <input id="modaldeleteids" name="modaldeleteids" type="hidden" />
+        <label for="modaldeleteids"></label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn danger-background waves-effect waves-light"
+      form="deletecustomersform"
+      type="submit"
+      name="action"
+    >
+      <i class="material-icons right">delete</i>
+      Excluir
+    </button>
+  </div>
+</div>
+<div class="row-height">
+  <a
+    class="modal-trigger waves-effect waves-light btn danger-background default-icon-button"
+    id="deletecustomersbutton"
+    href="#contactsdeletemodal"
+    ><i class="material-icons">delete</i></a
+  >
+</div>
+<table class="striped highlight">
   <thead>
     <tr>
+      <th>
+        <div class="td-checkbox" id="td-checkbox-main">
+          <label for=""
+            ><input type="checkbox" class="filled-in" /><span></span
+          ></label>
+        </div>
+      </th>
       <th>Nome</th>
       <th>Empresa</th>
       <th>E-mail</th>
       <th>Telefone</th>
       <th>Recebível</th>
       <th>Crédito</th>
+      <th>Editar</th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody class="generic-table-body" id="contactstablebody">
     {{#each contacts}}
     <tr>
-      <td>Alvin</td>
-      <td>Eclair</td>
-      <td>$0.87</td>
+      <td class="hidden-field">{{ id }}</td>
+      <td>
+        <div class="td-checkbox">
+          <label for=""
+            ><input type="checkbox" class="filled-in" /><span></span
+          ></label>
+        </div>
+      </td>
+      <td>{{ name }}</td>
+      <td>{{ company }}</td>
+      <td>{{ email }}</td>
+      <td>{{ phone }}</td>
+      <td>{{ debit }}</td>
+      <td>{{ credit }}</td>
+      <td class="hidden-field">{{ currency }}</td>
+      <td class="hidden-field">{{ paymentTerms }}</td>
+      <td class="hidden-field">{{ type }}</td>
+      <td>
+        <a
+          class="modal-trigger waves-effect waves-light btn information-background default-icon-button row-icon-button"
+          href="#editcustomermodal{{ id }}"
+          ><i class="material-icons">edit</i></a
+        >
+      </td>
+      {{> contactseditmodal this}}
     </tr>
     {{else}}
     <tr>

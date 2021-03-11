@@ -4,26 +4,17 @@ const Invoice = require('./Invoice');
 const Item = require('./Item');
 
 const Invoiceitem = db.define('invoiceitem', {
-  // currency: {
-  //   allowNull: false,
-  //   type
-  // },
-  // displayName: {
-  //   allowNull: false,
-  //   type: Sequelize.STRING,
-  // },
   quantity: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.INTEGER,
   },
-  rate: {
-    allowNull: false,
+  unitPrice: {
+    allowNull: true,
     type: Sequelize.INTEGER,
   },
 });
 
 Invoiceitem.belongsTo(Invoice);
 Item.hasOne(Invoiceitem);
-// Customer.sync().then(() => console.log('Table synced.'));
 
 module.exports = Invoiceitem;

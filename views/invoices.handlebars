@@ -1,25 +1,89 @@
-<table>
+<div id="invoicesdeletemodal" class="modal">
+  <div class="modal-content">
+    <h4>Atenção</h4>
+    <p>Deseja excluir os produtos selecionados?</p>
+    <form action="/invoices/delete" id="deleteitemsform" method="POST">
+      <div class="input-field col s6">
+        <input id="modaldeleteids" name="modaldeleteids" type="hidden" />
+        <label for="modaldeleteids"></label>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn danger-background waves-effect waves-light"
+      form="deleteitemsform"
+      type="submit"
+      name="action"
+    >
+      <i class="material-icons right">delete</i>
+      Excluir
+    </button>
+  </div>
+</div>
+<div class="row-height">
+  <a
+    class="modal-trigger waves-effect waves-light btn danger-background default-icon-button"
+    id="deleteitemsbutton"
+    href="#invoicesdeletemodal"
+    ><i class="material-icons">delete</i></a
+  >
+</div>
+<table class="striped highlight">
   <thead>
     <tr>
-      <th>Nome</th>
-      <th>Empresa</th>
-      <th>E-mail</th>
-      <th>Telefone</th>
-      <th>Recebível</th>
-      <th>Crédito</th>
+      <th>
+        <div class="td-checkbox" id="td-checkbox-main">
+          <label for=""
+            ><input type="checkbox" class="filled-in" /><span></span
+          ></label>
+        </div>
+      </th>
+      <th>Data</th>
+      <th>Fatura</th>
+      <th>Pedido</th>
+      <th>Cliente</th>
+      <th>Status</th>
+      <th>Vencimento</th>
+      <th>Montante</th>
+      <th>Saldo Devido</th>
     </tr>
   </thead>
 
-  <tbody>
+  <tbody id="invoicestablebody">
     {{#each invoices}}
     <tr>
-      <td>Alvin</td>
-      <td>Eclair</td>
-      <td>$0.87</td>
+      <td class="hidden-field">{{ id }}</td>
+      <td>
+        <div class="td-checkbox">
+          <label for=""
+            ><input type="checkbox" class="filled-in" /><span></span
+          ></label>
+        </div>
+      </td>
+      <td>{{ date }}</td>
+      <td>{{ number }}</td>
+      <td>{{ order }}</td>
+      <td>{{ customer }}</td>
+      <td>{{ status }}</td>
+      <td>{{ dueDate }}</td>
+      <td>{{ value }}</td>
+      <td>{{ dueValue }}</td>
+      <td>
+        <a
+          class="modal-trigger waves-effect waves-light btn information-background default-icon-button row-icon-button"
+          href="#edititemmodal{{ id }}"
+          ><i class="material-icons">edit</i></a
+        >
+      </td>
+      {{> invoiceseditmodal this}}
     </tr>
     {{else}}
     <tr>
-      <td colspan="6">Não há vendas cadastradas.</td>
+      <td colspan="6">Não há faturas cadastradas.</td>
     </tr>
     {{/each}}
   </tbody>

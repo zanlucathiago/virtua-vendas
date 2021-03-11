@@ -2,10 +2,15 @@
   "env": { "browser": true },
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "globals": { "M": "readonly" },
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "plugins": ["prettier"],
   "rules": {
+    "consistent-return": "off",
     "import/extensions": "off",
     "no-restricted-syntax": "off",
+    "node/no-unsupported-features/es-syntax": "off",
     "prettier/prettier": "error",
     "no-unused-vars": "warn",
     "no-console": "off",

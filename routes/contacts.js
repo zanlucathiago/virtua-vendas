@@ -1,37 +1,88 @@
 const express = require('express');
-// const db = require('../config/database');
-// const Account = require('../models/Account');
-// const Banking = require('../models/Banking');
-// const Currency = require('../models/Currency');
+const { ensureAuth } = require('../middleware/auth');
 const Customer = require('../models/Customer');
-// const Invoice = require('../models/Invoice');
-// const Invoiceitem = require('../models/Invoiceitem');
-// const Item = require('../models/Item');
-// const Terms = require('../models/Terms');
 
 const router = express.Router();
 
-router.get('/', (req, res) =>
+router.get('/', ensureAuth, (req, res) =>
   Customer.findAll({ raw: true })
     .then((contacts) => {
       res.render('contacts', {
-        contacts,
+        contacts: contacts.map((c) => ({
+          ...c,
+          debit: 'R$ 0,00',
+          credit: 'R$ 0,00',
+        })),
       });
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ msg: err.message });
+    })
 );
 
-router.post('/add', (req, res) => {
-  const { displayName, paymentTerms } = req.body;
+router.post('/add', ensureAuth, (req, res) => {
+  const {
+    company,
+    currency,
+    name,
+    email,
+    paymentTerms,
+    phone,
+    type,
+  } = req.body;
 
-  Customer.create({ displayName, paymentTerms }).then(() => {
-    res.redirect('/contacts');
+  Customer.create({
+    company,
+    currency,
+    name,
+    email,
+    paymentTerms,
+    phone,
+    type,
+  })
+    .then(() => {
+      res.redirect('/contacts');
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ msg: err.message });
+    });
+});
+
+router.post('/edit/:id', ensureAuth, (req, res) => {
+  const {
+    company,
+    currency,
+    name,
+    email,
+    paymentTerms,
+    phone,
+    type,
+  } = req.body;
+
+  const { id } = req.params;
+
+  Customer.findByPk(id).then((item) => {
+    item
+      .update({
+        company,
+        currency,
+        name,
+        email,
+        paymentTerms,
+        phone,
+        type,
+      })
+      .then(() => {
+        res.redirect('/contacts');
+      });
   });
 });
 
-router.post('/delete/:id', (req, res) => {
-  const { id } = req.params;
-
+router.post('/delete', ensureAuth, (req, res) => {
+  const id = JSON.parse(req.body.modaldeleteids);
+  // const { id } = req.params;
   Customer.destroy({ where: { id } }).then(() => res.redirect('/contacts'));
 });
 

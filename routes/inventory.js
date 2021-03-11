@@ -1,4 +1,5 @@
 const express = require('express');
+const { ensureAuth } = require('../middleware/auth');
 const Item = require('../models/Item');
 
 const router = express.Router();
@@ -16,15 +17,15 @@ const getAll = (req, res) => {
     .catch((err) => console.log(err));
 };
 
-router.get('/', getAll);
+router.get('/', ensureAuth, getAll);
 
-router.get('/delete', getAll);
+router.get('/delete', ensureAuth, getAll);
 
-router.get('/edit', getAll);
+router.get('/edit', ensureAuth, getAll);
 
-router.get('/add', getAll);
+router.get('/add', ensureAuth, getAll);
 
-router.post('/add', (req, res) => {
+router.post('/add', ensureAuth, (req, res) => {
   const {
     account,
     description,
@@ -47,15 +48,16 @@ router.post('/add', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      res.json({ msg: err.message });
     });
 });
 
-router.post('/delete', (req, res) => {
+router.post('/delete', ensureAuth, (req, res) => {
   const id = JSON.parse(req.body.modaldeleteids);
   Item.destroy({ where: { id } }).then(() => res.redirect('/inventory/delete'));
 });
 
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', ensureAuth, (req, res) => {
   const {
     account,
     description,
@@ -66,7 +68,7 @@ router.post('/edit/:id', (req, res) => {
   } = req.body;
 
   const { id } = req.params;
-  // const id = JSON.parse(req.body.modaldeleteids);
+
   Item.findByPk(id).then((item) => {
     item
       .update({
@@ -81,7 +83,6 @@ router.post('/edit/:id', (req, res) => {
         res.redirect('/inventory/edit');
       });
   });
-  // Item.destroy({ where: { id } }).then(() => res.redirect('/inventory/delete'));
 });
 
 module.exports = router;

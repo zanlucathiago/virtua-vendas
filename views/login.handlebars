@@ -1,0 +1,48 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    min-height: 100vh;
+  "
+>
+  <div
+    style="
+      border: 1px solid #dadce0;
+      border-radius: 8px;
+      margin: 0 auto;
+      width: 450px;
+    "
+  >
+    <div style="padding: 48px 40px 36px">
+      <div style="height: 24px; text-align: center">Tecchi</div>
+      <div>
+        <h4 style="text-align: center">Login</h4>
+        <div style="text-align: center">Usar conta Tecchi</div>
+      </div>
+      <form id="login-form">
+        <div style="padding-top: 24px">
+          <div class="input-field col s6">
+            <input autofocus id="email" type="text" class="validate" />
+            <label for="email">Usuário</label>
+          </div>
+          <div class="input-field col s12">
+            <input id="password" type="password" class="validate" />
+            <label for="password">Senha</label>
+          </div>
+          <div style="display: flex; justify-content: flex-end">
+            <button
+              class="btn waves-effect waves-light"
+              form="login-form"
+              type="submit"
+              name="action"
+            >
+              Próximo
+              <i class="material-icons right">send</i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

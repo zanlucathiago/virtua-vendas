@@ -1,17 +1,12 @@
 const express = require('express');
-// const db = require('../config/database');
-// const Account = require('../models/Account');
-// const Banking = require('../models/Banking');
-// const Currency = require('../models/Currency');
+const { ensureAuth } = require('../middleware/auth');
+const Customer = require('../models/Customer');
 const Invoice = require('../models/Invoice');
-// const Invoice = require('../models/Invoice');
-// const Invoiceitem = require('../models/Invoiceitem');
-// const Invoice = require('../models/Invoice');
-// const Terms = require('../models/Terms');
+const Item = require('../models/Item');
 
 const router = express.Router();
 
-router.get('/', (req, res) =>
+router.get('/', ensureAuth, (req, res) =>
   Invoice.findAll({ raw: true })
     .then((invoices) => {
       res.render('invoices', {
@@ -21,15 +16,21 @@ router.get('/', (req, res) =>
     .catch((err) => console.log(err))
 );
 
-router.post('/add', (req, res) => {
-  const { displayName, paymentTerms } = req.body;
+router.get('/resources', ensureAuth, async (req, res) => {
+  const customers = await Customer.findAll({ raw: true });
+  const products = await Item.findAll({ raw: true });
+  res.json({ customers, products });
+});
 
-  Invoice.create({ displayName, paymentTerms }).then(() => {
+router.post('/add', ensureAuth, (req, res) => {
+  const { name, paymentTerms } = req.body;
+
+  Invoice.create({ name, paymentTerms }).then(() => {
     res.redirect('/invoices');
   });
 });
 
-router.post('/delete/:id', (req, res) => {
+router.post('/delete/:id', ensureAuth, (req, res) => {
   const { id } = req.params;
   Invoice.destroy({ where: { id } }).then(() => res.redirect('/invoices'));
 });

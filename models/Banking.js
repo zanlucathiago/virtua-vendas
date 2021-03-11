@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../config/database');
 
 const Banking = db.define('banking', {
-  displayName: {
+  name: {
     allowNull: false,
     type: Sequelize.STRING,
   },
