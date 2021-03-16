@@ -1,12 +1,13 @@
-
-
-
-
 <div id="contactsdeletemodal" class="modal delete-modal">
   <div class="modal-content">
     <h4>Atenção</h4>
     <p>Deseja excluir os clientes selecionados?</p>
-    <form action="/contacts/delete" class="delete-form" id="deletecustomersform" method="POST">
+    <form
+      action="/contacts/delete"
+      class="delete-form"
+      id="deletecustomersform"
+      method="POST"
+    >
       <div class="input-field col s6">
         <input id="modaldeleteids" name="modaldeleteids" type="hidden" />
         <label for="modaldeleteids"></label>
@@ -28,13 +29,15 @@
     </button>
   </div>
 </div>
-<div class="row-height">
+<div style="margin: -8px 0 8px 0">
   <a
-    class="modal-trigger waves-effect waves-light btn danger-background default-icon-button"
+    class="modal-trigger waves-effect waves-light btn danger-background"
     id="deletecustomersbutton"
     href="#contactsdeletemodal"
-    ><i class="material-icons">delete</i></a
   >
+    <i class="material-icons left">delete</i>
+    Excluir selecionados
+  </a>
 </div>
 <table class="striped highlight">
   <thead>
@@ -91,4 +94,5 @@
     </tr>
     {{/each}}
   </tbody>
+  {{> tfoot this}}
 </table>

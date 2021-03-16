@@ -49,6 +49,6 @@ module.exports = {
     if (!isAuthenticated(req)) {
       return next();
     }
-    res.redirect('/dashboard');
+    res.redirect('/invoices');
   },
 };

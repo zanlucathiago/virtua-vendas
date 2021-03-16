@@ -1,15 +1,15 @@
 <div class="fixed-action-btn">
-  <a class="btn-floating btn-large red">
+  <a class="btn-floating btn-large green">
     <i class="large material-icons">add</i>
   </a>
   <ul>
     <li>
       <a
-        class="btn-floating red tooltipped waves-effect waves-light btn modal-trigger"
+        class="btn-floating green tooltipped waves-effect waves-light btn modal-trigger"
         data-position="left"
-        data-tooltip="Adicionar Fatura"
-        href="#addinvoice"
-        ><i class="material-icons">description</i></a
+        data-tooltip="Adicionar Produto"
+        href="#additem"
+        ><i class="material-icons">shopping_basket</i></a
       >
     </li>
     <li>
@@ -23,11 +23,20 @@
     </li>
     <li>
       <a
-        class="btn-floating green tooltipped waves-effect waves-light btn modal-trigger"
+        class="btn-floating red tooltipped waves-effect waves-light btn modal-trigger"
         data-position="left"
-        data-tooltip="Adicionar Produto"
-        href="#additem"
-        ><i class="material-icons">shopping_basket</i></a
+        data-tooltip="Lançar Fatura"
+        href="#addinvoice"
+        ><i class="material-icons">description</i></a
+      >
+    </li>
+    <li>
+      <a
+        class="btn-floating blue tooltipped waves-effect waves-light btn modal-trigger"
+        data-position="left"
+        data-tooltip="Lançar Pagamento"
+        href="#addpayment"
+        ><i class="material-icons">monetization_on</i></a
       >
     </li>
   </ul>

@@ -1,0 +1,56 @@
+<a
+  class="dropdown-trigger"
+  data-target="dropdown-customer-invoice-add"
+  href="#"
+  id="dropdown-customer-invoice-add-trigger"
+  style="position: relative"
+>
+  <div class="input-field col s6">
+    <input id="invoicecustomerid" required type="text" class="validate" />
+    <input
+      name="customerId"
+      id="invoicecustomeridvalue"
+      style="display: none"
+    />
+    <label for="invoicecustomerid">Cliente</label>
+  </div></a
+>
+<ul id="dropdown-customer-invoice-add" class="dropdown-content"></ul>
+<div class="input-field col s6">
+  <input id="invoicenumber" name="number" type="text" class="validate" />
+  <label for="invoicenumber">Fatura</label>
+</div>
+<div class="input-field col s6">
+  <input id="invoiceorder" name="order" type="text" class="validate" />
+  <label for="invoiceorder">Pedido</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="invoicedate"
+    name="date"
+    readonly="true"
+    style="cursor: pointer"
+    type="text"
+    class="datepicker"
+  />
+  <label for="invoicedate">Data</label>
+</div>
+<div class="input-field col s12" id="invoicepaymentTermscontainer">
+  <select
+    class="paymentterms-select"
+    id="invoicepaymentTerms"
+    name="paymentTerms"
+  ></select>
+  <label>Prazo</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="invoicedueDate"
+    name="dueDate"
+    readonly="true"
+    style="cursor: pointer"
+    type="text"
+    class="datepicker"
+  />
+  <label for="invoicedueDate">Vencimento</label>
+</div>

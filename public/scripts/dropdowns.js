@@ -1,5 +1,6 @@
+import listitem from './dropdown/listitem.js';
+
 const renderOptions = (data, input) => {
-  // debugger;
   const li = document.getElementById(
     input.parentElement.parentElement.getAttribute('data-target')
   );
@@ -18,24 +19,17 @@ const renderOptions = (data, input) => {
         .join('')
     : data;
 
-  for (const ch of li.children) {
-    ch.addEventListener('click', (e) => {
-      input.value = e.target.textContent;
-      M.updateTextFields();
-    });
-  }
+  listitem.init(Array.from(li.children).entries(), input, data);
 };
 
 const init = (el, data) => {
-  // debugger;
   let input;
 
   if (data) {
-    // debugger;
     input = el.firstElementChild.firstElementChild;
     renderOptions(data, input);
   } else {
-    document.getElementById('logout-btn').addEventListener('click', (e) => {
+    document.getElementById('logout-btn').addEventListener('click', () => {
       document.cookie = 'token=""';
       const form = document.createElement('form');
       form.method = 'GET';

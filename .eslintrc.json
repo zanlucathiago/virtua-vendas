@@ -9,6 +9,10 @@
   "rules": {
     "consistent-return": "off",
     "import/extensions": "off",
+    "import/no-cycle": "off",
+    "no-await-in-loop": "off",
+    "no-param-reassign": "off",
+    "no-plusplus": "off",
     "no-restricted-syntax": "off",
     "node/no-unsupported-features/es-syntax": "off",
     "prettier/prettier": "error",

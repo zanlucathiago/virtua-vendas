@@ -22,12 +22,19 @@
   <body id="main-body">
     <header>
       {{> navbar}}
-      {{> sidenav}}
     </header>
-    <main class="has-fixed-sidenav">{{{body}}}</main>
+    {{> sidenav}}
+    <!-- <main class="has-fixed-sidenav" style="background-color: "> -->
+    <main>
+      <div class="container">
+        <h1>{{ title }}</h1>
+        {{{body}}}
+      </div>
+    </main>
     {{> fab}}
     {{> additem}}
-    {{> addinvoice}}
+    {{> addinvoice this}}
     {{> addcustomer}}
+    {{> addpayment this}}
   </body>
 </html>

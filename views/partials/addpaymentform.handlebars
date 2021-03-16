@@ -1,0 +1,63 @@
+<ul id="dropdown-customer-payment-add" class="dropdown-content"></ul>
+<div class="input-field col s6" style="display: flex">
+  <!-- <div style="margin: -15px 0; display: flex"> -->
+  <div class="material-icons prefix" disabled style="width: 32px" value="R$">
+    R$
+  </div>
+  <input
+    id="paymentValue{{ id }}"
+    min="0.01"
+    name="value"
+    step="0.01"
+    type="number"
+    class="validate"
+    value="{{value}}"
+  />
+  <label for="paymentValue{{ id }}">Montante</label>
+  <!-- </div> -->
+</div>
+<div class="input-field col s6">
+  <input
+    id="paymentdate{{ id }}"
+    name="date"
+    readonly="true"
+    style="cursor: pointer"
+    type="text"
+    class="datepicker"
+  />
+  <label for="paymentdate{{ id }}">Data</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="paymentnumber{{ id }}"
+    name="number"
+    type="text"
+    class="validate"
+  />
+  <label for="paymentnumber{{ id }}">Número</label>
+</div>
+<div class="input-field col s12" id="paymentpaymentTermscontainer">
+  <select
+    class="paymentMode-select"
+    id="paymentMode{{ id }}"
+    name="mode"
+  ></select>
+  <label>Modo</label>
+</div>
+<div class="input-field col s12" id="paymentpaymentTermscontainer">
+  <select
+    class="paymentAccount-select"
+    id="paymentAccount{{ id }}"
+    name="account"
+  ></select>
+  <label>Conta</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="paymentReference{{ id }}"
+    name="reference"
+    type="text"
+    class="validate"
+  />
+  <label for="paymentReference{{ id }}">Referência</label>
+</div>

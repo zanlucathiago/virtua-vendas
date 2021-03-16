@@ -1,29 +1,30 @@
 const express = require('express');
 const { ensureAuth } = require('../middleware/auth');
 const Item = require('../models/Item');
+const services = require('../services/services');
 
 const router = express.Router();
 
-const getAll = (req, res) => {
-  Item.findAll({ raw: true })
-    .then((inventory) => {
+router.get('/', ensureAuth, (req, res) => {
+  const { p } = req.query;
+
+  Item.findAndCountAll({ raw: true })
+    .then(({ count, rows }) => {
       res.render('inventory', {
-        inventory: inventory.map((i) => ({
+        a: p,
+        rp: Math.ceil(count / services.pp),
+        inventory: rows.map((i) => ({
           ...i,
-          sellingPrice: `R$ ${(i.sellingPrice / 100).toFixed(2)}`,
+          sellingPriceLabel: services.getPrice(i.sellingPrice),
         })),
+        redirecturl: 'inventory',
+        title: 'Inventário',
       });
     })
-    .catch((err) => console.log(err));
-};
-
-router.get('/', ensureAuth, getAll);
-
-router.get('/delete', ensureAuth, getAll);
-
-router.get('/edit', ensureAuth, getAll);
-
-router.get('/add', ensureAuth, getAll);
+    .catch((e) => {
+      res.status(400).json({ msg: e.message });
+    });
+});
 
 router.post('/add', ensureAuth, (req, res) => {
   const {
@@ -39,22 +40,16 @@ router.post('/add', ensureAuth, (req, res) => {
     account,
     description,
     name,
-    sellingPrice: 100 * parseFloat(sellingPrice),
+    sellingPrice,
     type,
     usageUnit,
   })
     .then(() => {
-      res.redirect('/inventory/add');
+      res.status(201).json({ msg: 'Cliente criado.' });
     })
     .catch((err) => {
-      console.log(err);
-      res.json({ msg: err.message });
+      res.status(400).json({ msg: err.message });
     });
-});
-
-router.post('/delete', ensureAuth, (req, res) => {
-  const id = JSON.parse(req.body.modaldeleteids);
-  Item.destroy({ where: { id } }).then(() => res.redirect('/inventory/delete'));
 });
 
 router.post('/edit/:id', ensureAuth, (req, res) => {
@@ -75,14 +70,29 @@ router.post('/edit/:id', ensureAuth, (req, res) => {
         account,
         description,
         name,
-        sellingPrice: 100 * parseFloat(sellingPrice),
+        sellingPrice,
         type,
         usageUnit,
       })
       .then(() => {
-        res.redirect('/inventory/edit');
+        res.status(201).json({ msg: 'Produto alterado.' });
+      })
+      .catch((err) => {
+        res.status(400).json({ msg: err.message });
       });
   });
+});
+
+router.post('/delete', ensureAuth, (req, res) => {
+  const id = JSON.parse(req.body.modaldeleteids);
+
+  Item.destroy({ where: { id } })
+    .then(() => {
+      res.status(200).json({ msg: 'Produto(s) excluído(s).' });
+    })
+    .catch((err) => {
+      res.status(400).json({ msg: err.message });
+    });
 });
 
 module.exports = router;

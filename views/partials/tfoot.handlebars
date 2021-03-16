@@ -1,0 +1,19 @@
+<tfoot>
+  <tr>
+    <td colspan="10">
+      <ul class="pagination">
+        {{#times this}}
+        {{#if active}}
+        <li class="waves-effect active">
+          <a href="/{{ redirecturl }}?p={{ label }}">{{ label }}</a>
+        </li>
+        {{else}}
+        <li class="waves-effect">
+          <a href="/{{ redirecturl }}?p={{ label }}">{{ label }}</a>
+        </li>
+        {{/if}}
+        {{/times}}
+      </ul>
+    </td>
+  </tr>
+</tfoot>

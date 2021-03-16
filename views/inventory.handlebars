@@ -24,12 +24,12 @@
     </button>
   </div>
 </div>
-<div class="row-height">
+<div style="margin: -8px 0 8px 0">
   <a
-    class="modal-trigger waves-effect waves-light btn danger-background default-icon-button"
+    class="modal-trigger waves-effect waves-light btn danger-background"
     id="deleteitemsbutton"
     href="#inventorydeletemodal"
-    ><i class="material-icons">delete</i></a
+    ><i class="material-icons left">delete</i>Excluir selecionados</a
   >
 </div>
 <table class="striped highlight">
@@ -63,7 +63,7 @@
       </td>
       <td>{{ name }}</td>
       <td>{{ description }}</td>
-      <td>{{ sellingPrice }}</td>
+      <td>{{ sellingPriceLabel }}</td>
       <td>{{ usageUnit }}</td>
       <td class="hidden-field">{{ account }}</td>
       <td class="hidden-field">{{ type }}</td>
@@ -82,4 +82,5 @@
     </tr>
     {{/each}}
   </tbody>
+  {{> tfoot this}}
 </table>

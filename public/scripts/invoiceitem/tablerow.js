@@ -1,40 +1,71 @@
 import dropdowns from '../dropdowns.js';
 
-const addinvoiceitem = (data) => {
-  const table = document.getElementById('invoiceitemstablebody');
-  const addButton = document.getElementById('additembutton');
-  const id = parseInt(addButton.getAttribute('current-id'), 10);
+const init = (data, rows) => {
+  for (const r of rows) {
+    dropdowns.init(
+      r.getElementsByClassName('addinvoiceitemdropdown-trigger')[0],
+      data
+    );
+
+    r.lastElementChild.firstElementChild.addEventListener('click', () => {
+      r.remove();
+    });
+  }
+};
+
+const addinvoiceitem = (data, entityId) => {
+  const table = document.getElementById(
+    `invoiceitemstablebodymodal${entityId || ''}`
+  );
+
+  const index = table.lastElementChild
+    ? parseInt(table.lastElementChild.getAttribute('current-index'), 10) + 1
+    : 1;
 
   table.insertAdjacentHTML(
     'beforeend',
     `
-  <tr>
+  <tr current-index="${index}">
   <td>
     <a
-      class="dropdown-trigger"
-      data-target="dropdown-product-invoice-add-${id}"
+      class="dropdown-trigger addinvoiceitemdropdown-trigger"
+      data-target="dropdown-product-invoice-add-${entityId || ''}-${index}"
       href="#"
-      id="dropdown-product-invoice-add-trigger-${id}"
+      id="dropdown-product-invoice-add-trigger-${entityId || ''}-${index}"
       style="position: relative"
     >
       <div style="margin: -15px 0">
         <input
-          id="invoiceitemitemid-${id}"
-          name="customerId"
+          id="invoiceitemitemid-${entityId || ''}-${index}"
           type="text"
           class="validate"
-        /></div
+        />
+        <input
+          id="invoiceitemitemidvalue-${entityId || ''}-${index}"
+          name="itemId"
+          required
+          style="display: none"
+        />                  <input
+        id="invoiceitemid-${entityId || ''}-${index}"
+        name="entityId"
+        style="display: none"
+      /></div
     ></a>
-    <ul id="dropdown-product-invoice-add-${id}" class="dropdown-content">
-</ul>
+    <ul
+      id="dropdown-product-invoice-add-${entityId || ''}-${index}"
+      class="dropdown-content"
+    ></ul>
   </td>
   <td>
     <div style="margin: -15px 0">
       <input
-        id="itemsellingprice-${id}"
-        name="sellingPrice"
+        id="quantity-${entityId || ''}-${index}"
+        min="0.0001"
+        name="quantity"
+        step="0.0001"
         type="number"
         class="validate"
+        value="1"
       />
     </div>
   </td>
@@ -42,9 +73,9 @@ const addinvoiceitem = (data) => {
     <div style="margin: -15px 0; display: flex">
       <input disabled style="width: 32px" value="R$" />
       <input
-        id="itemsellingprice-${id}"
+        id="unitPrice-${entityId || ''}-${index}"
         min="0.01"
-        name="sellingPrice"
+        name="unitPrice"
         step="0.01"
         type="number"
         class="validate"
@@ -59,39 +90,68 @@ const addinvoiceitem = (data) => {
     >
   </td>
 </tr>
-`
+  `
   );
-  // debugger;
-  if (id) {
-    // debugger;
-    dropdowns.init(
-      document.getElementById(`dropdown-product-invoice-add-trigger-${id}`),
-      table.firstElementChild.firstElementChild.lastElementChild.innerHTML
-    );
-  } else {
-    dropdowns.init(
-      document.getElementById('dropdown-product-invoice-add-trigger-0'),
-      data
-    );
-  }
-  // table.lastChild
 
-  // for (const d of document.getElementsByClassName('delete-invoiceitem-row')) {
-  const lastRow = table.lastElementChild;
-  // if (id) {
-  //   document.getElementById(`dropdown-product-invoice-add-${id}`).innerHTML =
-  //     table.firstElementChild.firstElementChild.lastElementChild.innerHTML;
-  // }
-  lastRow.lastElementChild.firstElementChild.addEventListener('click', (e) => {
-    // debugger;
-    lastRow.remove();
-  });
-  addButton.setAttribute('current-id', `${id + 1}`);
-  // }
+  init(data, [table.lastElementChild]);
 };
 
-const clear = () => {
-  document.getElementById('invoiceitemstablebody').innerHTML = '';
+const addinvoices = (entityId, invoices) => {
+  const table = document.getElementById(
+    `paymentstablebodymodal${entityId || ''}`
+  );
+
+  table.parentElement.parentElement.setAttribute('style', 'display: block');
+
+  table.parentElement.parentElement.previousElementSibling.setAttribute(
+    'style',
+    'display: none'
+  );
+
+  table.innerHTML = invoices
+    .map(
+      (i, index) =>
+        `
+  <tr current-index="${index}">
+  <td>
+  ${i.date}
+        <input
+          name="invoiceId"
+          style="display: none"
+          value="${i.id}"
+        />
+  </td>
+  <td>
+      ${i.dueDate}
+  </td>
+  <td>
+      ${i.number}
+  </td>
+  <td>
+      ${i.valueLabel}
+  </td>
+  <td>
+      ${i.dueValueLabel}
+  </td>
+  <td>
+    <div style="margin: -15px 0; display: flex">
+      <input disabled style="width: 32px" value="R$" />
+      <input
+        min="0.01"
+        name="invoicePaymentValue"
+        step="0.01"
+        type="number"
+        class="validate"
+        value="${i.dueValue}"
+      />
+    </div>
+  </td>
+</tr>
+  `
+    )
+    .join('');
+
+  // init(data, [table.lastElementChild]);
 };
 
-export default { addinvoiceitem, clear };
+export default { addinvoices, addinvoiceitem, init };

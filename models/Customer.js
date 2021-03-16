@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-/**
- * TODO: Implementar domain Currency.
- */
-// const Currency = require('./Currency');
+const Invoice = require('./Invoice');
+const Invoiceitem = require('./Invoiceitem');
+const Invoicepayment = require('./Invoicepayment');
+const Payment = require('./Payment');
 
 const Customer = db.define('customer', {
   name: {
@@ -57,9 +57,13 @@ const Customer = db.define('customer', {
   },
 });
 
-/**
- * TODO: Implementar domain Currency.
- */
-// Currency.hasOne(Customer);
+Invoice.belongsTo(Customer);
+Customer.Invoices = Customer.hasMany(Invoice);
+Invoicepayment.belongsTo(Customer);
+Customer.Invoicepayments = Customer.hasMany(Invoicepayment);
+Invoiceitem.belongsTo(Customer);
+Customer.Invoiceitems = Customer.hasMany(Invoiceitem);
+Payment.belongsTo(Customer);
+Customer.Payments = Customer.hasMany(Payment);
 
 module.exports = Customer;

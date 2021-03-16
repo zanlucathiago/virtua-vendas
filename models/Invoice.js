@@ -1,11 +1,15 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-const Customer = require('./Customer');
-// const Terms = require('./Terms');
+const Invoiceitem = require('./Invoiceitem');
+const Invoicepayment = require('./Invoicepayment');
 
 const Invoice = db.define('invoice', {
   date: {
     allowNull: false,
+    set(value) {
+      const [day, month, year] = value.split('/');
+      this.setDataValue('date', new Date(year, month - 1, day));
+    },
     type: Sequelize.DATEONLY,
   },
   number: {
@@ -29,16 +33,23 @@ const Invoice = db.define('invoice', {
       'OVERDUE'
     ),
   },
+  paymentTerms: {
+    allowNull: false,
+    type: Sequelize.ENUM('15D', '30D', '45D', '60D', '0D', '0M', '1M'),
+  },
   dueDate: {
     allowNull: false,
+    set(value) {
+      const [day, month, year] = value.split('/');
+      this.setDataValue('dueDate', new Date(year, month - 1, day));
+    },
     type: Sequelize.DATEONLY,
   },
 });
 
-Customer.hasOne(Invoice);
-/**
- * TODO: Desenvolver domain Terms.
- */
-// Terms.hasOne(Invoice);
+Invoicepayment.belongsTo(Invoice);
+Invoice.Invoicepayments = Invoice.hasMany(Invoicepayment);
+Invoiceitem.belongsTo(Invoice);
+Invoice.Invoiceitems = Invoice.hasMany(Invoiceitem);
 
 module.exports = Invoice;

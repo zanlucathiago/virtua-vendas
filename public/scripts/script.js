@@ -1,7 +1,5 @@
-// import autocompletes from './autocompletes.js';
 import dropdowns from './dropdowns.js';
 import forms from './forms.js';
-import tablerow from './invoiceitem/tablerow.js';
 import itemradios from './item/radios.js';
 import itemselects from './item/selects.js';
 import modals from './modals.js';
@@ -19,7 +17,7 @@ const initToastConfirmations = () => {
 
   if (action) {
     M.toast({
-      classes: 'confirm-background',
+      classes: 'success-background',
       html: `
       <div class="toast-content">
         <i class="material-icons toast-icon">
@@ -34,11 +32,14 @@ const initToastConfirmations = () => {
 };
 
 const onContentLoad = () => {
-  // tablerow.addinvoiceitem();
+  // document.querySelectorAll('.sidenav');
+  M.Sidenav.init(document.querySelectorAll('.sidenav'));
+  // document.getElementById('default-pagination').innerHTML = `
+
+  // `;
   initToastConfirmations();
   tablecheckboxes.init();
   forms.init();
-  // autocompletes.init();
   dropdowns.init(document.getElementById('avatar-topright-dropdown-trigger'));
   itemradios.init();
   itemselects.init();

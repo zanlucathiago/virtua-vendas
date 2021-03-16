@@ -1,5 +1,35 @@
 const renderOption = (u) => `<option value="${u.value}">${u.label}</option>`;
 
+const initPaymentSelectMode = () => {
+  for (const e of document.getElementsByClassName('paymentMode-select')) {
+    e.innerHTML = [
+      { label: 'Dinheiro', value: 'CASH' },
+      { label: 'Remessa bancária', value: 'BANK_REMITTANCE' },
+      { label: 'Transferência bancária', value: 'BANK_TRANFER' },
+      { label: 'Cheque', value: 'CHECK' },
+      { label: 'Cartão de crédito', value: 'CREDIT_CARD' },
+    ]
+      .map(renderOption)
+      .join('');
+  }
+};
+
+const initPaymentSelectAccount = () => {
+  for (const e of document.getElementsByClassName('paymentAccount-select')) {
+    e.innerHTML = [
+      { label: 'Troco de caixa', value: 'TROCO_DE_CAIXA' },
+      { label: 'Fundos não depositados', value: 'FUNDOS_NAO_DEPOSITADOS' },
+      { label: 'Reembolso de funcionário', value: 'REEMBOLSO_DE_FUNCIONARIO' },
+      {
+        label: 'Ajustes de saldo de abertura',
+        value: 'AJUSTES_DE_SALDO_DE_ABERTURA',
+      },
+    ]
+      .map(renderOption)
+      .join('');
+  }
+};
+
 const initItemSelectUsageunit = () => {
   for (const e of document.getElementsByClassName('item-usageunit-select')) {
     e.innerHTML = [
@@ -18,7 +48,7 @@ const initItemSelectUsageunit = () => {
       { label: 'Quilograma', value: 'KG' },
     ]
       .map(renderOption)
-      .join();
+      .join('');
   }
 };
 
@@ -34,7 +64,7 @@ const initItemSelectAccount = () => {
       { label: 'Taxa de Entrega', value: 'SHIPPING_CHARGE' },
     ]
       .map(renderOption)
-      .join();
+      .join('');
   }
 };
 
@@ -63,7 +93,7 @@ const initCustomerSelectCurrency = () => {
       { label: 'TRY - Lira turca', value: 'TRY' },
     ]
       .map(renderOption)
-      .join();
+      .join('');
   }
 };
 
@@ -79,7 +109,7 @@ const initCustomerSelectPaymentterms = () => {
       { label: 'Final do próximo mês', value: '1M' },
     ]
       .map(renderOption)
-      .join();
+      .join('');
   }
 };
 
@@ -88,6 +118,8 @@ const init = () => {
   initItemSelectUsageunit();
   initCustomerSelectCurrency();
   initCustomerSelectPaymentterms();
+  initPaymentSelectMode();
+  initPaymentSelectAccount();
 };
 
 export default { init };

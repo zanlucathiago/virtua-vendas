@@ -1,8 +1,8 @@
-<div id="invoicesdeletemodal" class="modal">
+<div id="invoicesdeletemodal" class="modal delete-modal">
   <div class="modal-content">
     <h4>Atenção</h4>
-    <p>Deseja excluir os produtos selecionados?</p>
-    <form action="/invoices/delete" id="deleteitemsform" method="POST">
+    <p>Deseja excluir as faturas selecionados?</p>
+    <form action="/invoices/delete" class="delete-form" id="deleteinvoicesform" method="POST">
       <div class="input-field col s6">
         <input id="modaldeleteids" name="modaldeleteids" type="hidden" />
         <label for="modaldeleteids"></label>
@@ -15,7 +15,7 @@
     </a>
     <button
       class="btn danger-background waves-effect waves-light"
-      form="deleteitemsform"
+      form="deleteinvoicesform"
       type="submit"
       name="action"
     >
@@ -24,12 +24,12 @@
     </button>
   </div>
 </div>
-<div class="row-height">
+<div style="margin: -8px 0 8px 0">
   <a
-    class="modal-trigger waves-effect waves-light btn danger-background default-icon-button"
-    id="deleteitemsbutton"
+    class="modal-trigger waves-effect waves-light btn danger-background"
+    id="deleteinvoicesbutton"
     href="#invoicesdeletemodal"
-    ><i class="material-icons">delete</i></a
+    ><i class="material-icons left">delete</i>Excluir selecionados</a
   >
 </div>
 <table class="striped highlight">
@@ -52,8 +52,7 @@
       <th>Saldo Devido</th>
     </tr>
   </thead>
-
-  <tbody id="invoicestablebody">
+  <tbody class="generic-table-body" id="invoicestablebody">
     {{#each invoices}}
     <tr>
       <td class="hidden-field">{{ id }}</td>
@@ -67,24 +66,24 @@
       <td>{{ date }}</td>
       <td>{{ number }}</td>
       <td>{{ order }}</td>
-      <td>{{ customer }}</td>
-      <td>{{ status }}</td>
+      <td>{{ customer.name }}</td>
+      <td>{{ statusLabel }}</td>
       <td>{{ dueDate }}</td>
       <td>{{ value }}</td>
       <td>{{ dueValue }}</td>
       <td>
         <a
           class="modal-trigger waves-effect waves-light btn information-background default-icon-button row-icon-button"
-          href="#edititemmodal{{ id }}"
+          href="#addinvoice{{ id }}"
           ><i class="material-icons">edit</i></a
         >
       </td>
-      {{> invoiceseditmodal this}}
     </tr>
     {{else}}
     <tr>
-      <td colspan="6">Não há faturas cadastradas.</td>
+      <td colspan="9">Não há faturas lançadas.</td>
     </tr>
     {{/each}}
   </tbody>
+  {{> tfoot this}}
 </table>

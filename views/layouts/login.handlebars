@@ -60,7 +60,7 @@
               document.cookie = `token=${data.token}`;
               const form = document.createElement('form');
               form.method = 'GET';
-              form.action = '/dashboard';
+              form.action = '/invoices';
               document.body.appendChild(form);
               form.submit();
             })

@@ -1,0 +1,78 @@
+<a
+  class="dropdown-trigger"
+  data-target="dropdown-customer-invoice-add"
+  href="#"
+  id="dropdown-customer-invoice-add-trigger{{id}}"
+  style="position: relative"
+>
+  <div class="input-field col s6">
+    <input
+      id="invoicecustomerid{{id}}"
+      required
+      type="text"
+      class="validate"
+      value="{{ customer.name }}"
+    />
+    <input
+      name="customerId"
+      id="invoicecustomeridvalue{{id}}"
+      style="display: none"
+      value="{{ customerId }}"
+    />
+    <label for="invoicecustomerid{{id}}">Cliente</label>
+  </div></a
+>
+<ul id="dropdown-customer-invoice-add{{id}}" class="dropdown-content"></ul>
+<div class="input-field col s6">
+  <input
+    id="invoicenumber{{id}}"
+    name="number"
+    type="text"
+    class="validate"
+    value="{{ number }}"
+  />
+  <label for="invoicenumber{{id}}">Fatura</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="invoiceorder{{id}}"
+    name="order"
+    type="text"
+    class="validate"
+    value="{{ order }}"
+  />
+  <label for="invoiceorder{{id}}">Pedido</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="invoicedate{{id}}"
+    name="date"
+    readonly="true"
+    style="cursor: pointer"
+    type="text"
+    class="datepicker"
+    value="{{ date }}"
+  />
+  <label for="invoicedate{{id}}">Data</label>
+</div>
+<div class="input-field col s12" id="invoicepaymentTermscontainer{{id}}">
+  <select
+    class="paymentterms-select"
+    id="invoicepaymentTerms{{id}}"
+    name="paymentTerms"
+    value="{{ paymentTerms }}"
+  ></select>
+  <label>Prazo</label>
+</div>
+<div class="input-field col s6">
+  <input
+    id="invoicedueDate{{id}}"
+    name="dueDate"
+    readonly="true"
+    style="cursor: pointer"
+    type="text"
+    class="datepicker"
+    value="{{ dueDate }}"
+  />
+  <label for="invoicedueDate{{id}}">Vencimento</label>
+</div>

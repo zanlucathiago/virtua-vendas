@@ -1,0 +1,114 @@
+{{#iterator paymentsreceived}}
+<div id="addpayment{{ id }}" class="modal">
+  <div class="modal-content" style="margin-bottom: 14px">
+    <form
+      action="/paymentsreceived/add"
+      id="addpaymentform{{ id }}"
+      method="POST"
+    >
+      <h4>{{ label }} Pagamento</h4>
+      <a
+        class="dropdown-trigger"
+        data-target="dropdown-customer-payment-add"
+        href="#"
+        id="dropdown-customer-payment-add-trigger{{ id }}"
+        style="position: relative"
+      >
+        <div class="input-field col s6">
+          <input
+            id="paymentcustomerid{{ id }}"
+            required
+            type="text"
+            class="validate"
+            value="{{ customer.name }}"
+          />
+          <input
+            name="customerId"
+            id="paymentcustomeridvalue{{ id }}"
+            style="display: none"
+            value="{{ customerId }}"
+          />
+          <label for="paymentcustomerid{{ id }}">Cliente</label>
+        </div></a
+      >
+      <div style="height: 72px"></div>
+      <div style="display: none">
+        {{> addpaymentform this}}
+        <h5>Faturas pendentes</h5>
+        <table class="striped highlight">
+          <colgroup>
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 20%" />
+            <col span="1" style="width: 10%" />
+            <col span="1" style="width: 10%" />
+            <col span="1" style="width: 20%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Vencimento</th>
+              <th>Fatura</th>
+              <th>Montante</th>
+              <th>Devido</th>
+              <th>Pagamento</th>
+            </tr>
+          </thead>
+          <tbody id="paymentstablebodymodal{{ id }}">
+            {{#invoiceitemrows invoicepayments}}
+            <tr current-index="${index}">
+              <td>
+                {{ date }}
+                <input
+                  name="invoiceId"
+                  style="display: none"
+                  value="{{ invoiceId }}"
+                />
+                <input name="entityId" style="display: none" value="{{ id }}" />
+              </td>
+              <td>{{ dueDate }}</td>
+              <td>{{ number }}</td>
+              <td>{{ valueLabel }}</td>
+              <td>{{ dueValueLabel }}</td>
+              <td>
+                <div style="margin: -15px 0; display: flex">
+                  <input disabled style="width: 32px" value="R$" />
+                  <input
+                    min="0.01"
+                    name="invoicePaymentValue"
+                    step="0.01"
+                    type="number"
+                    class="validate"
+                    value="{{ value }}"
+                  />
+                </div>
+              </td>
+            </tr>
+            {{/invoiceitemrows}}
+          </tbody>
+          <tfoot>
+            <th colspan="3">Total</th>
+            <th>R$ 0,00</th>
+            <th>R$ 0,00</th>
+            <th>R$ 0,00</th>
+          </tfoot>
+        </table>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn-flat modal-close waves-effect waves-light" href="#!">
+      Cancelar
+    </a>
+    <button
+      class="btn waves-effect waves-light"
+      form="addpaymentform{{ id }}"
+      type="submit"
+      name="action"
+    >
+      Salvar
+      <i class="material-icons right">send</i>
+    </button>
+  </div>
+</div>
+{{/iterator}}

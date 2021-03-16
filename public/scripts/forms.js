@@ -1,37 +1,40 @@
-import helper from './helper.js';
+import customer from './forms/customer.js';
+import invoice from './forms/invoice.js';
+import item from './forms/item.js';
+import payment from './forms/payment.js';
+import actionhelper from './helpers/actionhelper.js';
+import helper from './helpers/helper.js';
 
 const init = () => {
   for (const form of document.querySelectorAll('form')) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       const { id } = e.target;
-      // debugger;
-      if (id.includes('editcustomerform') || id === 'addcustomerform') {
-        const [, entityId] = id.split('editcustomerform');
 
-        const name = document.getElementById(`customername${entityId || ''}`)
-          .value;
-
-        if (!name) {
-          helper.notifyWarning('O nome deve ser preenchido.');
-        } else {
-          e.currentTarget.submit();
-        }
+      if (id.includes('addpaymentform')) {
+        payment.init(e, id);
+      } else if (id.includes('addinvoiceform')) {
+        invoice.init(e, id);
+      } else if (id.includes('editcustomerform') || id === 'addcustomerform') {
+        customer.init(e, id);
       } else if (id.includes('edititemform') || id === 'additemform') {
-        const [, entityId] = id.split('edititemform');
-        const name = document.getElementById(`itemname${entityId || ''}`).value;
-
-        const price = parseFloat(
-          document.getElementById(`itemsellingprice${entityId || ''}`).value
-        );
-
-        if (!name || !price) {
-          helper.notifyWarning('O nome e o preço devem ser preenchidos.');
-        } else {
-          e.currentTarget.submit();
-        }
+        item.init(e, id);
       } else if (e.target.className === 'delete-form') {
-        e.currentTarget.submit();
+        const { modaldeleteids } = e.target.elements;
+        const fullpath = e.target.getAttribute('action');
+        const [, redirpath] = fullpath.split('/');
+
+        actionhelper.post(
+          fullpath,
+          { modaldeleteids: modaldeleteids.value },
+          (res) => {
+            helper.notifySuccess(res.msg);
+
+            setTimeout(() => {
+              document.getElementById(`sidenav-${redirpath}`).click();
+            }, 1000);
+          }
+        );
       }
     });
   }

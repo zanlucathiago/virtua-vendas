@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
+// const Invoiceitem = require('./Invoiceitem');
 // const Banking = require('./Banking');
 
 const Item = db.define('item', {
@@ -31,7 +32,7 @@ const Item = db.define('item', {
   },
   sellingPrice: {
     allowNull: false,
-    type: Sequelize.INTEGER,
+    type: Sequelize.DECIMAL(10, 4),
   },
   account: {
     allowNull: false,
@@ -50,7 +51,5 @@ const Item = db.define('item', {
     type: Sequelize.STRING,
   },
 });
-
-// Banking.hasOne(Item);
 
 module.exports = Item;

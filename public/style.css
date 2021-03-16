@@ -1,7 +1,7 @@
-.sidenav {
+/* .sidenav {
   box-shadow: none !important;
   top: auto !important;
-}
+} */
 
 nav {
   box-shadow: none !important;
@@ -56,7 +56,7 @@ nav.navbar {
   display: none;
 }
 
-.confirm-background {
+.success-background {
   background-color: #4caf50 !important;
 }
 
@@ -76,21 +76,10 @@ table.highlight > tbody > tr:hover {
   background-color: rgba(242, 242, 242, 1) !important;
 }
 
-/* @media (min-width: 601px) {
-  .login-container:after .login-container:before {
-    content: '';
-  }
-} */
-/* .login-container {
-  border: 1px solid #dadce0;
-  border-radius: 8px;
-  width: 450px;
-} */
-
 @media only screen and (min-width: 993px) {
-  main.has-fixed-sidenav {
+  /* main.has-fixed-sidenav {
     padding-left: 300px;
-  }
+  } */
 
   #toast-container {
     bottom: 24px;

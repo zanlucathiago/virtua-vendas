@@ -1,6 +1,8 @@
-const init = (elems) => {
+const init = (elems, onSelect = () => {}) => {
   M.Datepicker.init(elems, {
+    autoClose: true,
     container: document.getElementById('main-body'),
+    defaultDate: new Date(),
     format: 'dd/mm/yyyy',
     i18n: {
       cancel: 'Cancelar',
@@ -35,7 +37,8 @@ const init = (elems) => {
       weekdaysAbbrev: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
       weekdaysShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
     },
-    isRTL: true,
+    onSelect,
+    setDefaultDate: true,
   });
 };
 
