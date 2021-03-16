@@ -45,7 +45,7 @@ router.post('/add', ensureAuth, (req, res) => {
     usageUnit,
   })
     .then(() => {
-      res.status(201).json({ msg: 'Cliente criado.' });
+      res.status(201).json({ msg: 'Produto criado.' });
     })
     .catch((err) => {
       res.status(400).json({ msg: err.message });
