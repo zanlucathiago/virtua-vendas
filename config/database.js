@@ -7,7 +7,11 @@ const { Sequelize } = require('sequelize');
 //   dialect: 'mysql',
 // });
 
-module.exports = new Sequelize('books', 'thiago', 'Mkbm@@1401', {
-  host: process.env.DATABASE_URL,
-  dialect: 'mysql',
-});
+module.exports = new Sequelize(
+  process.env.DATABASE,
+  process.env.USERNAME,
+  process.env.PASSWORD,
+  {
+    dialect: process.env.DIALECT,
+  }
+);
