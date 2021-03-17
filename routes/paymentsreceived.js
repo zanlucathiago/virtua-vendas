@@ -33,7 +33,6 @@ router.get('/', ensureAuth, (req, res) => {
     offset: p ? pp * (parseInt(p, 10) - 1) : 0,
   })
     .then(({ count, rows }) => {
-      // debugger;
       res.render('paymentsreceived', {
         a: p,
         rp: Math.ceil(count / pp),
@@ -73,6 +72,7 @@ router.get('/', ensureAuth, (req, res) => {
         })),
         redirecturl: 'paymentsreceived',
         title: 'Pagamentos',
+        version: process.env.npm_package_version,
       });
     })
     .catch((e) => {
@@ -81,9 +81,14 @@ router.get('/', ensureAuth, (req, res) => {
 });
 
 router.get('/resources', ensureAuth, async (req, res) => {
+  const paymentNumber = await Payment.max('id');
+
   Customer.findAll({ raw: true })
     .then((customers) => {
-      res.json({ customers });
+      res.json({
+        customers,
+        paymentNumber: `${(paymentNumber || 0) + 1}`.padStart(6, '0'),
+      });
     })
     .catch((e) => {
       res.status(400).json({ msg: e.message });
@@ -95,14 +100,11 @@ router.get('/resources/:customerId', ensureAuth, async (req, res) => {
 
   Invoice.findAll({
     include: [{ model: Invoiceitem }, { model: Invoicepayment }],
-    // raw: true,
     where: { customerId },
   })
     .then((invoices) => {
-      // debugger;
       const inv = JSON.parse(JSON.stringify(invoices))
         .map((i) => {
-          debugger;
           const value = i.invoiceitems.reduce(
             (prev, cur) => prev + cur.unitPrice * cur.quantity,
             0
@@ -119,10 +121,10 @@ router.get('/resources/:customerId', ensureAuth, async (req, res) => {
             valueLabel: services.getPrice(value),
             dueValue,
             dueValueLabel: services.getPrice(dueValue),
-            // invoicePaymentValue: dueValue,
           };
         })
         .filter((v) => v.dueValue);
+
       res.json({
         invoices: inv,
         value: inv.reduce((prev, cur) => prev + cur.dueValue, 0),

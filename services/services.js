@@ -42,4 +42,34 @@ module.exports = {
         return '-';
     }
   },
+  getUsageUnit: (usageUnit) => {
+    switch (usageUnit) {
+      case 'UN':
+        return 'Unidade';
+      case 'G':
+        return 'Grama';
+      case 'JOGO':
+        return 'Jogo';
+      case 'LT':
+        return 'Litro';
+      case 'MWMHORA':
+        return 'Megawatt Hora';
+      case 'METRO':
+        return 'Metro';
+      case 'M3':
+        return 'Metro Cúbico';
+      case 'M2':
+        return 'Metro Quadrado';
+      case '1000UN':
+        return 'Mil Unidades';
+      case 'PARES':
+        return 'Pares';
+      case 'QUILAT':
+        return 'Quilate';
+      case 'KG':
+        return 'Quilograma';
+      default:
+        return '';
+    }
+  },
 };

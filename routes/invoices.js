@@ -48,6 +48,7 @@ router.get('/', ensureAuth, (req, res) => {
         }),
         redirecturl: 'invoices',
         title: 'Faturas',
+        version: process.env.npm_package_version,
       });
     })
     .catch((e) => {
@@ -58,7 +59,13 @@ router.get('/', ensureAuth, (req, res) => {
 router.get('/resources', ensureAuth, async (req, res) => {
   const customers = await Customer.findAll({ raw: true });
   const products = await Item.findAll({ raw: true });
-  res.json({ customers, products });
+  const invoiceNumber = await Invoice.max('id');
+
+  res.json({
+    customers,
+    products,
+    invoiceNumber: `${(invoiceNumber || 0) + 1}`.padStart(6, '0'),
+  });
 });
 
 router.post('/add', ensureAuth, (req, res) => {

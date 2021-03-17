@@ -25,6 +25,7 @@ router.get('/', ensureAuth, (req, res) => {
         })),
         redirecturl: 'contacts',
         title: 'Clientes',
+        version: process.env.npm_package_version,
       });
     })
     .catch((err) => {

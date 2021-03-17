@@ -33,7 +33,7 @@ const initToastConfirmations = () => {
 
 const onContentLoad = () => {
   // document.querySelectorAll('.sidenav');
-  M.Sidenav.init(document.querySelectorAll('.sidenav'));
+  M.Sidenav.init(document.getElementById('slide-out'));
   // document.getElementById('default-pagination').innerHTML = `
 
   // `;

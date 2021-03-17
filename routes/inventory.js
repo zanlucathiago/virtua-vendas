@@ -16,9 +16,11 @@ router.get('/', ensureAuth, (req, res) => {
         inventory: rows.map((i) => ({
           ...i,
           sellingPriceLabel: services.getPrice(i.sellingPrice),
+          usageUnitLabel: services.getUsageUnit(i.usageUnit),
         })),
         redirecturl: 'inventory',
         title: 'Inventário',
+        version: process.env.npm_package_version,
       });
     })
     .catch((e) => {

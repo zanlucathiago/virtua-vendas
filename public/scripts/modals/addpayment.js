@@ -27,18 +27,11 @@ const init = (a) => {
       'style',
       'display: none'
     );
-
-    // actionhelper.get(
-    //   `/paymentsreceived/resources/${customerInput.value}/${entityId}`,
-    //   (res) => {
-    // debugger;
-    // tablerow.addinvoices(entityId, res.invoices);
-    // document.getElementById(`paymentValue${entityId}`).value = res.value;
-    // M.updateTextFields();
-    //   }
-    // );
   } else {
     actionhelper.get('/paymentsreceived/resources', (data) => {
+      document.getElementById(`paymentnumber`).value = data.paymentNumber;
+      M.updateTextFields();
+
       dropdowns.init(
         document.getElementById(
           `dropdown-customer-payment-add-trigger${entityId || ''}`

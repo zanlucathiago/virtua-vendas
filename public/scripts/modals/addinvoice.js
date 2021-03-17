@@ -48,6 +48,11 @@ const init = (a) => {
       throw Error(data.msg);
     }
 
+    document.getElementById(`invoicenumber${entityId || ''}`).value =
+      data.invoiceNumber;
+
+    M.updateTextFields();
+
     document
       .getElementById(`additembutton${entityId || ''}`)
       .addEventListener('click', () =>
@@ -62,7 +67,8 @@ const init = (a) => {
     );
 
     const tablechildrenlist = Array.from(
-      document.getElementById(`invoiceitemstablebody${entityId || ''}`).children
+      document.getElementById(`invoiceitemstablebodymodal${entityId || ''}`)
+        .children
     );
 
     if (tablechildrenlist.length) {
