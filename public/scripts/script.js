@@ -32,11 +32,7 @@ const initToastConfirmations = () => {
 };
 
 const onContentLoad = () => {
-  // document.querySelectorAll('.sidenav');
   M.Sidenav.init(document.getElementById('slide-out'));
-  // document.getElementById('default-pagination').innerHTML = `
-
-  // `;
   initToastConfirmations();
   tablecheckboxes.init();
   forms.init();
@@ -44,6 +40,7 @@ const onContentLoad = () => {
   itemradios.init();
   itemselects.init();
   M.FormSelect.init(document.querySelectorAll('select'));
+  itemselects.doUpdate();
   M.Tooltip.init(document.querySelectorAll('.tooltipped'));
   M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'));
   modals.init();

@@ -1,4 +1,5 @@
 import addinvoice from './modals/addinvoice.js';
+import additem from './modals/additem.js';
 import addpayment from './modals/addpayment.js';
 import _delete from './modals/delete.js';
 import editcustomer from './modals/editcustomer.js';
@@ -21,6 +22,8 @@ const init = () => {
   for (const a of modals) {
     if (a.id.includes('addinvoice')) {
       addinvoice.init(a);
+    } else if (a.id.includes('additem')) {
+      additem.init(a);
     } else if (a.id.includes('addpayment')) {
       addpayment.init(a);
     }

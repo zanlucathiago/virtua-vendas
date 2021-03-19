@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=8.3.0"
   },
-  "version": "1.0.0-beta02",
+  "version": "1.0.0-beta03",
   "description": "Accounting management app",
   "main": "app.js",
   "scripts": {

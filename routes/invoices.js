@@ -1,4 +1,5 @@
 const express = require('express');
+const { Op } = require('sequelize');
 const { ensureAuth } = require('../middleware/auth');
 const Customer = require('../models/Customer');
 const Invoice = require('../models/Invoice');
@@ -58,7 +59,16 @@ router.get('/', ensureAuth, (req, res) => {
 
 router.get('/resources', ensureAuth, async (req, res) => {
   const customers = await Customer.findAll({ raw: true });
-  const products = await Item.findAll({ raw: true });
+
+  const products = await Item.findAll({
+    raw: true,
+    where: {
+      class: {
+        [Op.ne]: 'PURCHASE',
+      },
+    },
+  });
+
   const invoiceNumber = await Invoice.max('id');
 
   res.json({

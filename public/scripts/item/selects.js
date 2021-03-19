@@ -1,3 +1,5 @@
+import additem from '../modals/additem.js';
+
 const renderOption = (u) =>
   `<option ${u.selected ? 'selected' : ''} value="${u.value}">${
     u.label
@@ -146,6 +148,24 @@ const initCustomerSelectPaymentterms = () => {
   }
 };
 
+const doUpdate = () => {
+  for (const e of document.getElementsByClassName('item-class-select')) {
+    for (const o of Array.from(e.children)) {
+      const found = {
+        ...o,
+        selected: o.getAttribute('value') === e.getAttribute('value'),
+      };
+
+      if (found.selected) {
+        additem.doUpdate(
+          e.parentElement.parentElement.parentElement.parentElement,
+          o.textContent
+        );
+      }
+    }
+  }
+};
+
 const init = () => {
   initItemSelectPurchaseAccount();
   initItemSelectSellingAccount();
@@ -157,4 +177,4 @@ const init = () => {
   initPaymentSelectAccount();
 };
 
-export default { init };
+export default { doUpdate, init };
