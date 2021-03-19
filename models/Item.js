@@ -40,11 +40,11 @@ const Item = db.define('item', {
     type: Sequelize.DECIMAL(10, 4),
   },
   purchasePrice: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.DECIMAL(10, 4),
   },
   sellingAccount: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
     // type: Sequelize.ENUM(
     //   'DISCOUNT',
@@ -57,7 +57,7 @@ const Item = db.define('item', {
     // ),
   },
   purchaseAccount: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
     // type: Sequelize.ENUM('COST_OF_GOODS_SOLD'),
   },
