@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
 const db = require('../config/database');
-// const Invoiceitem = require('./Invoiceitem');
-// const Banking = require('./Banking');
 
 const Item = db.define('item', {
   type: {
@@ -30,11 +28,19 @@ const Item = db.define('item', {
       'UN'
     ),
   },
+  class: {
+    allowNull: false,
+    type: Sequelize.ENUM('SALE', 'PURCHASE', 'SALE_AND_PURCHASE'),
+  },
   sellingPrice: {
     allowNull: false,
     type: Sequelize.DECIMAL(10, 4),
   },
-  account: {
+  purchasePrice: {
+    allowNull: false,
+    type: Sequelize.DECIMAL(10, 4),
+  },
+  sellingAccount: {
     allowNull: false,
     type: Sequelize.ENUM(
       'DISCOUNT',
@@ -46,7 +52,15 @@ const Item = db.define('item', {
       'SHIPPING_CHARGE'
     ),
   },
-  description: {
+  purchaseAccount: {
+    allowNull: false,
+    type: Sequelize.ENUM('COST_OF_GOODS_SOLD'),
+  },
+  sellingDescription: {
+    allowNull: true,
+    type: Sequelize.STRING,
+  },
+  purchaseDescription: {
     allowNull: true,
     type: Sequelize.STRING,
   },

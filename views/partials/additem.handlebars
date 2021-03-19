@@ -1,9 +1,11 @@
-<div id="additem" class="modal">
+{{#iterator inventory}}
+<div id="additem{{ id }}" class="modal">
   <div class="modal-content">
     <h4>Adicionar Produto</h4>
-    <form action="/inventory/add" id="additemform" method="POST">
-      <p>
-        <label class="item-type-goods-label">
+    <form action="/inventory/add" id="additemform{{ id }}" method="POST">
+      <div class="row">
+        <label class="item-type-goods-label col s6 m3 input-field">
+          {{#if isGoods}}
           <input
             checked
             class="item-type-goods-input with-gap"
@@ -11,49 +13,130 @@
             type="radio"
             value="GOODS"
           />
+          {{else}}
+          <input
+            class="item-type-goods-input with-gap"
+            name="type"
+            type="radio"
+            value="GOODS"
+          />
+          {{/if}}
           <span>Produto</span>
         </label>
-        <label class="item-type-service-label">
+        <label class="item-type-service-label col s6 m3 input-field">
+          {{#if isService}}
+          <input
+            checked
+            class="item-type-service-input with-gap"
+            name="type"
+            type="radio"
+            value="SERVICE"
+          />
+          {{else}}
           <input
             class="item-type-service-input with-gap"
             name="type"
             type="radio"
             value="SERVICE"
           />
+          {{/if}}
           <span>Serviço</span>
         </label>
-      </p>
-      <div class="input-field col s6">
-        <input id="itemname" name="name" type="text" class="validate" />
-        <label for="itemname">Nome</label>
-      </div>
-      <div class="input-field col s12">
-        <select class="item-usageunit-select" name="usageUnit"></select>
-        <label>Unidade</label>
-      </div>
-      <div class="input-field col s6">
-        <input
-          id="itemsellingprice"
-          min="0.01"
-          name="sellingPrice"
-          step="0.01"
-          type="number"
-          class="validate"
-        />
-        <label for="itemsellingprice">Preço</label>
-      </div>
-      <div class="input-field col s12">
-        <select class="item-account-select" name="account"></select>
-        <label>Conta</label>
-      </div>
-      <div class="input-field col s6">
-        <input
-          id="itemdescription"
-          name="description"
-          type="text"
-          class="validate"
-        />
-        <label for="itemdescription">Descrição</label>
+        <div class="input-field col s12">
+          <input
+            id="itemname{{ id }}"
+            name="name"
+            type="text"
+            class="validate"
+            value="{{ name }}"
+          />
+          <label for="itemname{{ id }}">Nome</label>
+        </div>
+        <div class="input-field col s12">
+          <select
+            class="item-usageunit-select"
+            id="item-usageunit-select{{ id }}"
+            name="usageUnit"
+            value="{{ usageUnit }}"
+          ></select>
+          <label>Unidade</label>
+          <!-- <input> -->
+        </div>
+        <div class="input-field col s12">
+          <select
+            class="item-class-select"
+            id="item-class-select{{ id }}"
+            name="itemClass"
+            value="{{ class }}"
+          ></select>
+          <label>Categoria</label>
+        </div>
+        <div class="col s6">
+          <h5>Inform. de Venda</h5>
+          <div class="input-field">
+            <input
+              id="itemsellingprice{{ id }}"
+              min="0.01"
+              name="sellingPrice"
+              step="0.01"
+              type="number"
+              class="validate"
+              value="{{ sellingPrice }}"
+            />
+            <label for="itemsellingprice{{ id }}">Preço de venda</label>
+          </div>
+          <div class="input-field">
+            <select
+              class="item-selling-account-select"
+              name="sellingAccount"
+              value="{{ sellingAccount }}"
+            ></select>
+            <label>Conta</label>
+          </div>
+          <div class="input-field">
+            <input
+              id="itemSellingdescription{{ id }}"
+              name="sellingDescription"
+              type="text"
+              class="validate"
+              value="{{ sellingDescription }}"
+            />
+            <label for="itemSellingdescription{{ id }}">Descrição</label>
+          </div>
+        </div>
+        <div class="col s6">
+          <h5>Inform. de Compra</h5>
+          <div class="input-field">
+            <input
+              id="itempurchaseprice{{ id }}"
+              min="0.01"
+              name="purchasePrice"
+              step="0.01"
+              type="number"
+              class="validate"
+              value="{{ purchasePrice }}"
+            />
+            <label for="itempurchaseprice{{ id }}">Preço de custo</label>
+          </div>
+          <div class="input-field">
+            <select
+              class="item-purchase-account-select"
+              name="purchaseAccount"
+              value="{{ purchaseAccount }}"
+            ></select>
+            <label>Conta</label>
+          </div>
+          <div class="input-field">
+            <input
+              id="itemPurchasedescription{{ id }}"
+              name="purchaseDescription"
+              type="text"
+              class="validate"
+              value="{{ purchaseDescription }}"
+            />
+            <label for="itemPurchasedescription{{ id }}">Descrição</label>
+          </div>
+        </div>
       </div>
     </form>
   </div>
@@ -63,7 +146,7 @@
     </a>
     <button
       class="btn waves-effect waves-light"
-      form="additemform"
+      form="additemform{{ id }}"
       type="submit"
       name="action"
     >
@@ -72,3 +155,4 @@
     </button>
   </div>
 </div>
+{{/iterator}}

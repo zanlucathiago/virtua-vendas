@@ -1,4 +1,7 @@
-const renderOption = (u) => `<option value="${u.value}">${u.label}</option>`;
+const renderOption = (u) =>
+  `<option ${u.selected ? 'selected' : ''} value="${u.value}">${
+    u.label
+  }</option>`;
 
 const initPaymentSelectMode = () => {
   for (const e of document.getElementsByClassName('paymentMode-select')) {
@@ -47,13 +50,29 @@ const initItemSelectUsageunit = () => {
       { label: 'Quilate', value: 'QUILAT' },
       { label: 'Quilograma', value: 'KG' },
     ]
+      .map((o) => ({ ...o, selected: o.value === e.getAttribute('value') }))
       .map(renderOption)
       .join('');
   }
 };
 
-const initItemSelectAccount = () => {
-  for (const e of document.getElementsByClassName('item-account-select')) {
+const initItemSelectClass = () => {
+  for (const e of document.getElementsByClassName('item-class-select')) {
+    e.innerHTML = [
+      { label: 'Revenda', value: 'SALE_AND_PURCHASE' },
+      { label: 'Venda', value: 'SALE' },
+      { label: 'Compra', value: 'PURCHASE' },
+    ]
+      .map((o) => ({ ...o, selected: o.value === e.getAttribute('value') }))
+      .map(renderOption)
+      .join('');
+  }
+};
+
+const initItemSelectSellingAccount = () => {
+  for (const e of document.getElementsByClassName(
+    'item-selling-account-select'
+  )) {
     e.innerHTML = [
       { label: 'Vendas', value: 'SALES' },
       { label: 'Desconto', value: 'DISCOUNT' },
@@ -63,6 +82,20 @@ const initItemSelectAccount = () => {
       { label: 'Outras Cobranças', value: 'OTHER_CHARGES' },
       { label: 'Taxa de Entrega', value: 'SHIPPING_CHARGE' },
     ]
+      .map((o) => ({ ...o, selected: o.value === e.getAttribute('value') }))
+      .map(renderOption)
+      .join('');
+  }
+};
+
+const initItemSelectPurchaseAccount = () => {
+  for (const e of document.getElementsByClassName(
+    'item-purchase-account-select'
+  )) {
+    e.innerHTML = [
+      { label: 'Custo de produtos vendidos', value: 'COST_OF_GOODS_SOLD' },
+    ]
+      .map((o) => ({ ...o, selected: o.value === e.getAttribute('value') }))
       .map(renderOption)
       .join('');
   }
@@ -114,8 +147,10 @@ const initCustomerSelectPaymentterms = () => {
 };
 
 const init = () => {
-  initItemSelectAccount();
+  initItemSelectPurchaseAccount();
+  initItemSelectSellingAccount();
   initItemSelectUsageunit();
+  initItemSelectClass();
   initCustomerSelectCurrency();
   initCustomerSelectPaymentterms();
   initPaymentSelectMode();

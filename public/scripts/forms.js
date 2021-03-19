@@ -17,7 +17,7 @@ const init = () => {
         invoice.init(e, id);
       } else if (id.includes('editcustomerform') || id === 'addcustomerform') {
         customer.init(e, id);
-      } else if (id.includes('edititemform') || id === 'additemform') {
+      } else if (id.includes('additemform')) {
         item.init(e, id);
       } else if (e.target.className === 'delete-form') {
         const { modaldeleteids } = e.target.elements;

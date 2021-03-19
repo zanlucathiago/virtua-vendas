@@ -17,6 +17,8 @@ router.get('/', ensureAuth, (req, res) => {
           ...i,
           sellingPriceLabel: services.getPrice(i.sellingPrice),
           usageUnitLabel: services.getUsageUnit(i.usageUnit),
+          isGoods: i.type === 'GOODS',
+          isService: i.type === 'SERVICE',
         })),
         redirecturl: 'inventory',
         title: 'Inventário',
@@ -30,21 +32,29 @@ router.get('/', ensureAuth, (req, res) => {
 
 router.post('/add', ensureAuth, (req, res) => {
   const {
-    account,
-    description,
-    name,
-    sellingPrice,
+    itemClass,
     type,
+    name,
     usageUnit,
+    sellingPrice,
+    purchasePrice,
+    sellingAccount,
+    purchaseAccount,
+    sellingDescription,
+    purchaseDescription,
   } = req.body;
 
   Item.create({
-    account,
-    description,
-    name,
-    sellingPrice,
+    class: itemClass,
     type,
+    name,
     usageUnit,
+    sellingPrice,
+    purchasePrice,
+    sellingAccount,
+    purchaseAccount,
+    sellingDescription,
+    purchaseDescription,
   })
     .then(() => {
       res.status(201).json({ msg: 'Produto criado.' });
@@ -56,12 +66,16 @@ router.post('/add', ensureAuth, (req, res) => {
 
 router.post('/edit/:id', ensureAuth, (req, res) => {
   const {
-    account,
-    description,
-    name,
-    sellingPrice,
+    itemClass,
     type,
+    name,
     usageUnit,
+    sellingPrice,
+    purchasePrice,
+    sellingAccount,
+    purchaseAccount,
+    sellingDescription,
+    purchaseDescription,
   } = req.body;
 
   const { id } = req.params;
@@ -69,12 +83,16 @@ router.post('/edit/:id', ensureAuth, (req, res) => {
   Item.findByPk(id).then((item) => {
     item
       .update({
-        account,
-        description,
-        name,
-        sellingPrice,
+        class: itemClass,
         type,
+        name,
         usageUnit,
+        sellingPrice,
+        purchasePrice,
+        sellingAccount,
+        purchaseAccount,
+        sellingDescription,
+        purchaseDescription,
       })
       .then(() => {
         res.status(201).json({ msg: 'Produto alterado.' });

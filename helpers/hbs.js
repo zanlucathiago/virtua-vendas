@@ -16,6 +16,8 @@ module.exports = {
   iterator: function (obj, block) {
     let accum = block.fn({
       id: '',
+      isGoods: true,
+      isService: false,
       label: 'Lançar',
       redirecturl: 'add',
       index: '0',
