@@ -31,7 +31,7 @@ const Item = db.define('item', {
     // ),
   },
   class: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.STRING,
     // type: Sequelize.ENUM('SALE', 'PURCHASE', 'SALE_AND_PURCHASE'),
   },
