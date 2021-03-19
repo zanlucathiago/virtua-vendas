@@ -20,22 +20,24 @@ const Payment = db.define('payment', {
   },
   account: {
     allowNull: false,
-    type: Sequelize.ENUM(
-      'TROCO_DE_CAIXA',
-      'FUNDOS_NAO_DEPOSITADOS',
-      'REEMBOLSO_DE_FUNCIONARIO',
-      'AJUSTES_DE_SALDO_DE_ABERTURA'
-    ),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM(
+    //   'TROCO_DE_CAIXA',
+    //   'FUNDOS_NAO_DEPOSITADOS',
+    //   'REEMBOLSO_DE_FUNCIONARIO',
+    //   'AJUSTES_DE_SALDO_DE_ABERTURA'
+    // ),
   },
   mode: {
     allowNull: false,
-    type: Sequelize.ENUM(
-      'BANK_REMITTANCE',
-      'BANK_TRANFER',
-      'CASH',
-      'CHECK',
-      'CREDIT_CARD'
-    ),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM(
+    //   'BANK_REMITTANCE',
+    //   'BANK_TRANFER',
+    //   'CASH',
+    //   'CHECK',
+    //   'CREDIT_CARD'
+    // ),
   },
   value: {
     allowNull: true,

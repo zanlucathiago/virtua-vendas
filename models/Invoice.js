@@ -22,20 +22,22 @@ const Invoice = db.define('invoice', {
   },
   status: {
     allowNull: false,
-    type: Sequelize.ENUM(
-      'DRAFT',
-      'PENDING_APPROVAL',
-      'ACCEPTED',
-      'REJECTED',
-      'SENT',
-      'PARTIALLY_PAID',
-      'PAID',
-      'OVERDUE'
-    ),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM(
+    //   'DRAFT',
+    //   'PENDING_APPROVAL',
+    //   'ACCEPTED',
+    //   'REJECTED',
+    //   'SENT',
+    //   'PARTIALLY_PAID',
+    //   'PAID',
+    //   'OVERDUE'
+    // ),
   },
   paymentTerms: {
     allowNull: false,
-    type: Sequelize.ENUM('15D', '30D', '45D', '60D', '0D', '0M', '1M'),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM('15D', '30D', '45D', '60D', '0D', '0M', '1M'),
   },
   dueDate: {
     allowNull: false,

@@ -12,9 +12,9 @@ db.authenticate()
   .then(() => console.log('Database connected'))
   .catch((err) => console.log(`Error: ${err}`));
 
-// db.sync({ alter: true }).then(() => {
-// db.sync({ force: true }).then(() => {
-db.sync().then(() => {
+db.sync({ alter: true }).then(() => {
+  // db.sync({ force: true }).then(() => {
+  // db.sync().then(() => {
   console.log('All models were synchronized successfully.');
 });
 

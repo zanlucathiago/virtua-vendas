@@ -4,7 +4,8 @@ const db = require('../config/database');
 const Item = db.define('item', {
   type: {
     allowNull: false,
-    type: Sequelize.ENUM('GOODS', 'SERVICE'),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM('GOODS', 'SERVICE'),
   },
   name: {
     allowNull: false,
@@ -12,25 +13,27 @@ const Item = db.define('item', {
   },
   usageUnit: {
     allowNull: true,
-    type: Sequelize.ENUM(
-      '',
-      'G',
-      'JOGO',
-      'LT',
-      'MWHORA',
-      'METRO',
-      'M3',
-      'M2',
-      '1000UN',
-      'PARES',
-      'QUILAT',
-      'KG',
-      'UN'
-    ),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM(
+    //   '',
+    //   'G',
+    //   'JOGO',
+    //   'LT',
+    //   'MWHORA',
+    //   'METRO',
+    //   'M3',
+    //   'M2',
+    //   '1000UN',
+    //   'PARES',
+    //   'QUILAT',
+    //   'KG',
+    //   'UN'
+    // ),
   },
   class: {
     allowNull: false,
-    type: Sequelize.ENUM('SALE', 'PURCHASE', 'SALE_AND_PURCHASE'),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM('SALE', 'PURCHASE', 'SALE_AND_PURCHASE'),
   },
   sellingPrice: {
     allowNull: false,
@@ -42,19 +45,21 @@ const Item = db.define('item', {
   },
   sellingAccount: {
     allowNull: false,
-    type: Sequelize.ENUM(
-      'DISCOUNT',
-      'GENERAL_INCOME',
-      'INTEREST_INCOME',
-      'LATE_FEE_INCOME',
-      'OTHER_CHARGES',
-      'SALES',
-      'SHIPPING_CHARGE'
-    ),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM(
+    //   'DISCOUNT',
+    //   'GENERAL_INCOME',
+    //   'INTEREST_INCOME',
+    //   'LATE_FEE_INCOME',
+    //   'OTHER_CHARGES',
+    //   'SALES',
+    //   'SHIPPING_CHARGE'
+    // ),
   },
   purchaseAccount: {
     allowNull: false,
-    type: Sequelize.ENUM('COST_OF_GOODS_SOLD'),
+    type: Sequelize.STRING,
+    // type: Sequelize.ENUM('COST_OF_GOODS_SOLD'),
   },
   sellingDescription: {
     allowNull: true,
