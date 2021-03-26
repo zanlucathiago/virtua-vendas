@@ -5,60 +5,70 @@ const Invoiceitem = require('./Invoiceitem');
 const Invoicepayment = require('./Invoicepayment');
 const Payment = require('./Payment');
 
-const Customer = db.define('customer', {
-  name: {
-    allowNull: false,
-    type: Sequelize.STRING,
+const Customer = db.define(
+  'customer',
+  {
+    name: {
+      allowNull: false,
+      type: Sequelize.STRING,
+    },
+    company: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
+    email: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
+    phone: {
+      allowNull: true,
+      type: Sequelize.STRING,
+    },
+    currency: {
+      allowNull: false,
+      type: Sequelize.STRING,
+      // type: Sequelize.ENUM(
+      //   'BRL',
+      //   'USD',
+      //   'EUR',
+      //   'JPY',
+      //   'GBP',
+      //   'AUD',
+      //   'CAD',
+      //   'CHF',
+      //   'CNY',
+      //   'HKD',
+      //   'NZD',
+      //   'SEK',
+      //   'KRW',
+      //   'SGD',
+      //   'NOK',
+      //   'MXN',
+      //   'INR',
+      //   'RUB',
+      //   'ZAR',
+      //   'TRY'
+      // ),
+    },
+    paymentTerms: {
+      allowNull: false,
+      type: Sequelize.STRING,
+      // type: Sequelize.ENUM('15D', '30D', '45D', '60D', '0D', '0M', '1M'),
+    },
+    // tenant: {
+    //   allowNull: false,
+    //   type: Sequelize.STRING,
+    // },
+    type: {
+      allowNull: false,
+      type: Sequelize.STRING,
+      // type: Sequelize.ENUM('BUSINESS', 'INDIVIDUAL'),
+    },
   },
-  company: {
-    allowNull: true,
-    type: Sequelize.STRING,
-  },
-  email: {
-    allowNull: true,
-    type: Sequelize.STRING,
-  },
-  phone: {
-    allowNull: true,
-    type: Sequelize.STRING,
-  },
-  currency: {
-    allowNull: false,
-    type: Sequelize.STRING,
-    // type: Sequelize.ENUM(
-    //   'BRL',
-    //   'USD',
-    //   'EUR',
-    //   'JPY',
-    //   'GBP',
-    //   'AUD',
-    //   'CAD',
-    //   'CHF',
-    //   'CNY',
-    //   'HKD',
-    //   'NZD',
-    //   'SEK',
-    //   'KRW',
-    //   'SGD',
-    //   'NOK',
-    //   'MXN',
-    //   'INR',
-    //   'RUB',
-    //   'ZAR',
-    //   'TRY'
-    // ),
-  },
-  paymentTerms: {
-    allowNull: false,
-    type: Sequelize.STRING,
-    // type: Sequelize.ENUM('15D', '30D', '45D', '60D', '0D', '0M', '1M'),
-  },
-  type: {
-    allowNull: false,
-    type: Sequelize.STRING,
-    // type: Sequelize.ENUM('BUSINESS', 'INDIVIDUAL'),
-  },
-});
+  {
+    freezeTableName: true,
+  }
+);
 
 Invoice.belongsTo(Customer);
 Customer.Invoices = Customer.hasMany(Invoice);

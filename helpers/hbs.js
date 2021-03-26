@@ -14,6 +14,7 @@ module.exports = {
     return accum;
   },
   iterator: function (obj, block) {
+    // debugger;
     let accum = block.fn({
       id: '',
       isGoods: true,

@@ -1,5 +1,6 @@
 const express = require('express');
 const { ensureAuth } = require('../middleware/auth');
+const db = require('../config/database');
 const Customer = require('../models/Customer');
 
 const pp = 10;
@@ -9,11 +10,12 @@ const router = express.Router();
 router.get('/', ensureAuth, (req, res) => {
   const { p } = req.query;
 
-  Customer.findAndCountAll({
-    limit: pp,
-    offset: p ? pp * (parseInt(p, 10) - 1) : 0,
-    raw: true,
-  })
+  Customer.schema(req.user.tenant)
+    .findAndCountAll({
+      limit: pp,
+      offset: p ? pp * (parseInt(p, 10) - 1) : 0,
+      raw: true,
+    })
     .then(({ count, rows }) => {
       res.render('contacts', {
         a: p,
@@ -44,15 +46,16 @@ router.post('/add', ensureAuth, (req, res) => {
     type,
   } = req.body;
 
-  Customer.create({
-    company,
-    currency,
-    name,
-    email,
-    paymentTerms,
-    phone,
-    type,
-  })
+  Customer.schema(req.user.tenant)
+    .create({
+      company,
+      currency,
+      name,
+      email,
+      paymentTerms,
+      phone,
+      type,
+    })
     .then(() => {
       res.status(201).json({ msg: 'Cliente criado.' });
     })
@@ -74,30 +77,33 @@ router.post('/edit/:id', ensureAuth, (req, res) => {
 
   const { id } = req.params;
 
-  Customer.findByPk(id).then((item) => {
-    item
-      .update({
-        company,
-        currency,
-        name,
-        email,
-        paymentTerms,
-        phone,
-        type,
-      })
-      .then(() => {
-        res.status(201).json({ msg: 'Cliente alterado.' });
-      })
-      .catch((err) => {
-        res.status(400).json({ msg: err.message });
-      });
-  });
+  Customer.schema(req.user.tenant)
+    .findByPk(id)
+    .then((item) => {
+      item
+        .update({
+          company,
+          currency,
+          name,
+          email,
+          paymentTerms,
+          phone,
+          type,
+        })
+        .then(() => {
+          res.status(201).json({ msg: 'Cliente alterado.' });
+        })
+        .catch((err) => {
+          res.status(400).json({ msg: err.message });
+        });
+    });
 });
 
 router.post('/delete', ensureAuth, (req, res) => {
   const id = JSON.parse(req.body.modaldeleteids);
 
-  Customer.destroy({ where: { id } })
+  Customer.schema(req.user.tenant)
+    .destroy({ where: { id } })
     .then(() => {
       res.status(200).json({ msg: 'Cliente(s) excluído(s).' });
     })

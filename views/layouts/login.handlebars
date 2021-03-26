@@ -20,7 +20,9 @@
   <body>
     {{{body}}}
     <script>
-      document.getElementById('login-form').addEventListener('submit', (e) => {
+      const formEl = document.getElementById('login-form');
+
+      formEl.addEventListener('submit', (e) => {
         // debugger;
         e.preventDefault();
         const email = document.getElementById('email').value;
@@ -40,8 +42,9 @@
             </div>`,
           });
         } else {
+          // debugger;
           // fetch('http://localhost:5001/api/auth/login', {
-          fetch('https://tecchi-auth.herokuapp.com/api/auth/login', {
+          fetch(formEl.getAttribute('action'), {
             method: 'POST',
             headers: {
               Accept: 'application/json',

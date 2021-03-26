@@ -1,11 +1,12 @@
 const express = require('express');
 const { ensureAuth } = require('../middleware/auth');
-const Customer = require('../models/Customer');
-const Invoice = require('../models/Invoice');
-const Invoiceitem = require('../models/Invoiceitem');
-const Invoicepayment = require('../models/Invoicepayment');
-const Payment = require('../models/Payment');
 const services = require('../services/services');
+const db = require('../config/database');
+const Payment = require('../models/Payment');
+const Invoicepayment = require('../models/Invoicepayment');
+const Invoiceitem = require('../models/Invoiceitem');
+const Invoice = require('../models/Invoice');
+const Customer = require('../models/Customer');
 
 const pp = 10;
 
@@ -14,24 +15,27 @@ const router = express.Router();
 router.get('/', ensureAuth, (req, res) => {
   const { p } = req.query;
 
-  Payment.findAndCountAll({
-    include: [
-      {
-        model: Customer,
-        attributes: ['name'],
-      },
-      {
-        include: {
-          // attributes: ['number'],
-          include: [{ model: Invoiceitem }, { model: Invoicepayment }],
-          model: Invoice,
+  Payment.schema(req.user.tenant)
+    .findAndCountAll({
+      include: [
+        {
+          model: Customer.schema(req.user.tenant),
+          attributes: ['name'],
         },
-        model: Invoicepayment,
-      },
-    ],
-    limit: pp,
-    offset: p ? pp * (parseInt(p, 10) - 1) : 0,
-  })
+        {
+          include: {
+            include: [
+              { model: Invoiceitem.schema(req.user.tenant) },
+              { model: Invoicepayment.schema(req.user.tenant) },
+            ],
+            model: Invoice.schema(req.user.tenant),
+          },
+          model: Invoicepayment.schema(req.user.tenant),
+        },
+      ],
+      limit: pp,
+      offset: p ? pp * (parseInt(p, 10) - 1) : 0,
+    })
     .then(({ count, rows }) => {
       res.render('paymentsreceived', {
         a: p,
@@ -81,9 +85,10 @@ router.get('/', ensureAuth, (req, res) => {
 });
 
 router.get('/resources', ensureAuth, async (req, res) => {
-  const paymentNumber = await Payment.max('id');
+  const paymentNumber = await Payment.schema(req.user.tenant).max('id');
 
-  Customer.findAll({ raw: true })
+  Customer.schema(req.user.tenant)
+    .findAll({ raw: true })
     .then((customers) => {
       res.json({
         customers,
@@ -98,10 +103,14 @@ router.get('/resources', ensureAuth, async (req, res) => {
 router.get('/resources/:customerId', ensureAuth, async (req, res) => {
   const { customerId } = req.params;
 
-  Invoice.findAll({
-    include: [{ model: Invoiceitem }, { model: Invoicepayment }],
-    where: { customerId },
-  })
+  Invoice.schema(req.user.tenant)
+    .findAll({
+      include: [
+        { model: Invoiceitem.schema(req.user.tenant) },
+        { model: Invoicepayment.schema(req.user.tenant) },
+      ],
+      where: { customerId },
+    })
     .then((invoices) => {
       const inv = JSON.parse(JSON.stringify(invoices))
         .map((i) => {
@@ -147,22 +156,23 @@ router.post('/add', ensureAuth, (req, res) => {
     invoicepayments,
   } = req.body;
 
-  Payment.create(
-    {
-      customerId,
-      invoicepayments: invoicepayments.map((ip) => ({
-        invoiceId: ip.invoiceId,
-        value: ip.value,
-      })),
-      number,
-      value,
-      date,
-      mode,
-      reference,
-      account,
-    },
-    { include: [Payment.Invoicepayments] }
-  )
+  Payment.schema(req.user.tenant)
+    .create(
+      {
+        customerId,
+        invoicepayments: invoicepayments.map((ip) => ({
+          invoiceId: ip.invoiceId,
+          value: ip.value,
+        })),
+        number,
+        value,
+        date,
+        mode,
+        reference,
+        account,
+      },
+      { include: [Payment.schema(req.user.tenant).Invoicepayments] }
+    )
     .then(() => {
       res.status(201).json({ msg: 'Pagamento lançado.' });
     })
@@ -185,15 +195,16 @@ router.post('/edit/:id', ensureAuth, (req, res) => {
 
   const { id } = req.params;
 
-  Invoicepayment.findAll({ where: { paymentId: id } }).then(
-    async (storedip) => {
+  Invoicepayment.schema(req.user.tenant)
+    .findAll({ where: { paymentId: id } })
+    .then(async (storedip) => {
       const tempobj = {};
 
       for (const invoicepayment of invoicepayments.filter((ip) => ip.value)) {
         if (invoicepayment.id) {
           tempobj[invoicepayment.id] = invoicepayment;
         } else {
-          await Invoiceitem.create({
+          await Invoiceitem.schema(req.user.tenant).create({
             value: invoicepayment.value,
             invoiceId: id,
           });
@@ -206,43 +217,51 @@ router.post('/edit/:id', ensureAuth, (req, res) => {
             value: tempobj[invoicepayment.id].value,
           });
         } else {
-          await Invoiceitem.destroy({ where: { id: invoicepayment.id } });
+          await Invoiceitem.schema(req.user.tenant).destroy({
+            where: { id: invoicepayment.id },
+          });
         }
       }
-    }
-  );
+    });
 
-  Payment.findByPk(id).then((item) => {
-    item
-      .update({
-        customerId,
-        number,
-        value,
-        date,
-        mode,
-        reference,
-        account,
-        invoicepayments,
-      })
-      .then(() => {
-        res.status(201).json({ msg: 'Pagamento alterado.' });
-      })
-      .catch((err) => {
-        res.status(400).json({ msg: err.message });
-      });
-  });
+  Payment.schema(req.user.tenant)
+    .findByPk(id)
+    .then((item) => {
+      item
+        .update({
+          customerId,
+          number,
+          value,
+          date,
+          mode,
+          reference,
+          account,
+          invoicepayments,
+        })
+        .then(() => {
+          res.status(201).json({ msg: 'Pagamento alterado.' });
+        })
+        .catch((err) => {
+          res.status(400).json({ msg: err.message });
+        });
+    });
 });
 
 router.post('/delete', ensureAuth, (req, res) => {
   const id = JSON.parse(req.body.modaldeleteids);
 
-  Invoicepayment.findAll({ where: { paymentId: id } }).then(async (ips) => {
-    for (const ip of ips) {
-      await Invoicepayment.destroy({ where: { id: ip.id } });
-    }
-  });
+  Invoicepayment.schema(req.user.tenant)
+    .findAll({ where: { paymentId: id } })
+    .then(async (ips) => {
+      for (const ip of ips) {
+        await Invoicepayment.schema(req.user.tenant).destroy({
+          where: { id: ip.id },
+        });
+      }
+    });
 
-  Payment.destroy({ where: { id } })
+  Payment.schema(req.user.tenant)
+    .destroy({ where: { id } })
     .then(() => {
       res.status(200).json({ msg: 'Pagamento(s) cancelado(s).' });
     })
