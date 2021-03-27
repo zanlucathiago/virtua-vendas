@@ -1,7 +1,6 @@
 const express = require('express');
 const { ensureAuth } = require('../middleware/auth');
 const services = require('../services/services');
-const db = require('../config/database');
 const Item = require('../models/Item');
 
 const router = express.Router();
@@ -46,7 +45,7 @@ router.post('/add', ensureAuth, (req, res) => {
     purchaseDescription,
   } = req.body;
 
-  Item.schema('recado-do-ceu')
+  Item.schema(req.user.tenant)
     .create({
       class: itemClass,
       type,
