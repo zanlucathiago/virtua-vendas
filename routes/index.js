@@ -12,7 +12,7 @@ router.get('/', ensureGuest, (req, res) => {
   });
 });
 
-router.get('/sync/:action/:tenant', ensureAuth, async (req, res) => {
+router.get('/sync/:action/:tenant', async (req, res) => {
   const { action } = req.params;
 
   const {
